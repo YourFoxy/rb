@@ -9,6 +9,7 @@
         v-for="section in SECTIONS"
         :key="section"
         @click="setActive(section)"
+        @click.stop="emits(section, false)"
       >
         {{ section }}
       </div>
@@ -26,6 +27,8 @@ import Icon from "~/components/common/Icon.vue";
 const isI = true;
 const SECTIONS = ["Редкие книги", "Фондодержатели", ""];
 const active = ref(SECTIONS[0]);
+
+const emits = defineEmits(SECTIONS);
 const setActive = (value) => {
   active.value = value;
 };

@@ -5,5 +5,14 @@ export const useAppStore = defineStore("appStore", {
     return {};
   },
   getters: {},
-  actions: {},
+  actions: {
+    setIsModalOpen({ value, data }) {
+      this.isModalOpen = value;
+      if (data && this.isModalOpen) {
+        this.formData = data;
+      } else {
+        this.formData = null;
+      }
+    },
+  },
 });
