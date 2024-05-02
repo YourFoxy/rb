@@ -19,10 +19,10 @@ import Header from "~/components/layouts/Header.vue";
   .content {
     flex: 1 1 auto;
     width: 100%;
-    @include container;
-    padding-top: 2rem;
+    // height: ;
     background-color: $dark-green;
-
+    max-width: 80rem;
+    margin: 0 auto;
     box-shadow: 0px 0px 12px rgb(0, 0, 0, 0.25);
   }
 }
