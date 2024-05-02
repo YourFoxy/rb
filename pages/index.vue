@@ -1,15 +1,17 @@
 <template>
   <div :class="$style.body">
-    Главная страница
-    <Card />
+    svsdrvg
+    <!-- <Instruction /> -->
+    <!-- <Card />
     <Card2 />
-    <Card3 />
+    <Card3 /> -->
   </div>
 </template>
 <script setup>
-import Card from "~/components/layouts/Card.vue";
-import Card2 from "~/components/layouts/Card2.vue";
-import Card3 from "~/components/layouts/Card3.vue";
+// import Card from "~/components/layouts/Card.vue";
+// import Card2 from "~/components/layouts/Card2.vue";
+// import Card3 from "~/components/layouts/Card3.vue";
+// import Instruction from "~/pages/instruction.vue";
 </script>
 <style lang="scss" module>
 .body {

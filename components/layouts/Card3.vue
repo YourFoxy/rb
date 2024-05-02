@@ -5,7 +5,7 @@
   </div>
 </template>
 
-<style lang="scss" module>
+
 .card {
   width: 12.5rem;
   height: 13.75rem;
