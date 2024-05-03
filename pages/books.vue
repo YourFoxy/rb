@@ -26,14 +26,18 @@
         :characters="characters"
         :activeCharacter="activeCharacter"
       />
-      <MarkingCard
-        class="markingCard"
-        v-for="(character, index) in characters"
-        :key="index"
-        :character="character !== characters[index - 1] ? character : ''"
-        :isCharacterSpaicing="character != characters[index + 1] ? true : false"
-        :id="character"
-      />
+      <NuxtLink to="/details">
+        <MarkingCard
+          class="markingCard"
+          v-for="(character, index) in characters"
+          :key="index"
+          :character="character !== characters[index - 1] ? character : ''"
+          :isCharacterSpaicing="
+            character != characters[index + 1] ? true : false
+          "
+          :id="character"
+        />
+      </NuxtLink>
     </div>
   </div>
 </template>

@@ -10,7 +10,7 @@
         :key="section"
         @click="setActive(section)"
       >
-        <NuxtLink to="/instruction1">
+        <NuxtLink to="/books">
           {{ section }}
         </NuxtLink>
       </div>
