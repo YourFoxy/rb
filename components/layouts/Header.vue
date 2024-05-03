@@ -24,10 +24,12 @@
         @mouseleave="hover = false"
       >
         <div :class="$style.icon">i</div>
-
-        <div :class="$style.name" v-if="active === '' || hover">Инструкция</div>
+        <Transition>
+          <div :class="$style.name" v-if="active === '' || hover">
+            Инструкция
+          </div>
+        </Transition>
       </NuxtLink>
-      <!-- <div :class="$style.manual" @click="setActive('')">Инструкция</div> -->
     </div>
   </div>
 </template>
@@ -90,7 +92,6 @@ const setActive = (value) => {
       display: flex;
       cursor: pointer;
 
-      transition: transform 150ms ease-in-out;
       .icon {
         @include LargTextBold;
         align-self: center;

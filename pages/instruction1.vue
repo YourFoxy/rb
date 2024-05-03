@@ -14,34 +14,35 @@
       <FilterСriteria />
       <FilterСriteria />
     </div>
-    <div :class="$style.right">
+    <div :class="$style.right" @scroll="scrolling">
       <div :class="$style.title">
         Издания на белорусском языке; книги, изданные в Беларуси; издания о
         Беларуси и смежных с ней территориях, которые культурой и исторически
         связаны с Беларусью (до 1917 г.).
       </div>
 
-      <LetterNavigation :class="$style.letterNavigation" :letters="letters" />
+      <CharacterNavigation
+        :class="$style.characterNavigation"
+        :characters="characters"
+        :activeCharacter="activeCharacter"
+      />
       <MarkingCard
-        :class="$style.markingCard"
-        v-for="(letter, index) in letters"
+        class="markingCard"
+        v-for="(character, index) in characters"
         :key="index"
-        :letter="letter !== letters[index - 1] ? letter : ''"
-        :isLetterSpaicing="letter != letters[index + 1] ? true : false"
-        :id="letter"
+        :character="character !== characters[index - 1] ? character : ''"
+        :isCharacterSpaicing="character != characters[index + 1] ? true : false"
+        :id="character"
       />
     </div>
-    <!-- <Card />
-    <Card :isMultivolume="true" /> -->
   </div>
 </template>
 <script setup>
 import MarkingCard from "~/components/blocks/MarkingBookCard.vue";
 import FilterСriteria from "~/components/blocks/FilterСriteria.vue";
-import LetterNavigation from "~/components/blocks/LetterNavigation.vue";
+import CharacterNavigation from "~/components/blocks/CharacterNavigation.vue";
 
-// const letters = ["a", "a", "a", "a", "a", "a", "a", "S", "b", "B", "V"];
-const letters1 = [
+const cardText = [
   "awedf",
   "afeA",
   "SFVwaCF",
@@ -55,12 +56,21 @@ const letters1 = [
   "VERGB",
   "VERGB",
 ];
-const getHref = computed((id) => {
-  return "#" + this.id;
-});
-const letters = letters1.map((element) => {
+
+const characters = cardText.map((element) => {
   return element[0].toUpperCase();
 });
+const activeCharacter = ref(characters[0]);
+const scrolling = (e) => {
+  const markingCards = e.srcElement.getElementsByClassName("markingCard");
+
+  for (let i = 0; i < markingCards.length; i++) {
+    if (markingCards[i].getBoundingClientRect().top > 0) {
+      activeCharacter.value = markingCards[i].id;
+      break;
+    }
+  }
+};
 </script>
 <style lang="scss" module>
 .body {
@@ -89,7 +99,7 @@ const letters = letters1.map((element) => {
       @include Subtitle-bold;
       margin-bottom: 2rem;
     }
-    .letterNavigation {
+    .characterNavigation {
       position: absolute;
       width: 1rem;
       right: 1.5rem;

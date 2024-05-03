@@ -1,8 +1,10 @@
 <template>
   <div :class="$style.block">
-    <div :class="[$style.marking, , { [$style.isLetter]: isLetterSpaicing }]">
-      <div v-if="letter !== ''" :class="$style.letter">
-        {{ letter }}
+    <div
+      :class="[$style.marking, , { [$style.isCharacter]: isCharacterSpaicing }]"
+    >
+      <div v-if="character !== ''" :class="$style.letter">
+        {{ character }}
       </div>
 
       <div :class="$style.divider"></div>
@@ -18,12 +20,12 @@ defineProps({
     type: Boolean,
     default: false,
   },
-  letter: {
+  character: {
     type: String,
     default: "",
   },
 
-  isLetterSpaicing: {
+  isCharacterSpaicing: {
     type: Boolean,
     default: false,
   },
@@ -53,7 +55,7 @@ defineProps({
       background-color: $light;
     }
   }
-  .isLetter {
+  .isCharacter {
     margin-bottom: 1rem;
     position: relative;
     // top: -1.3rem;
