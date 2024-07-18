@@ -37,7 +37,7 @@ defineProps({
   display: flex;
   .marking {
     overflow: hidden;
-    width: 2rem;
+    min-width: 2rem;
 
     .letter {
       @include H2;

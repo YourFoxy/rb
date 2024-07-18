@@ -1,13 +1,13 @@
 <template>
   <div :class="$style.body">
     <div :class="$style.left">
-      <img :class="$style.picture" src="~/public/images/image.png" />
+      <img :class="$style.picture" src="~/public/images/0101.jpg" />
     </div>
     <div :class="$style.right">
       <div :class="$style.gallery">
-        <img :class="$style.picture" src="~/public/images/image.png" />
-        <img :class="$style.picture" src="~/public/images/image.png" />
-        <img :class="$style.picture" src="~/public/images/image.png" />
+        <img :class="$style.picture" src="~/public/images/0101.jpg" />
+        <img :class="$style.picture" src="~/public/images/0101.jpg" />
+        <img :class="$style.picture" src="~/public/images/0101.jpg" />
       </div>
       <div :class="$style.title">
         Марта, К. Философы и поэты-моралисты во времена Римской Империи /
@@ -30,24 +30,28 @@
         передний обрез. В книге штампы: «Гродненская Областная БИБЛИОТЕКА», «ИЗЪ
         БИБЛИОТЕКИ С. П. Бургской ДУХОВНОЙ АКАДЕМIИ.».
       </div>
-
       <hr :class="$style.divider" />
       <div :class="$style.info">
         <div :class="$style.name">Дата поступления в библиотеку</div>
         <hr :class="$style.dividerDrop" />
-        <div :class="$style.description">28.03.21</div>
+        <div :class="$style.descrpiotion">28.03.21</div>
       </div>
       <div :class="$style.info">
         <div :class="$style.name">Инвентарный номер</div>
         <hr :class="$style.dividerDrop" />
-        <div :class="$style.description">1БО277277</div>
+        <div :class="$style.descrpiotion">1БО277277</div>
       </div>
       <div :class="$style.info">
         <div :class="$style.name">Подарено</div>
         <hr :class="$style.dividerDrop" />
-        <div :class="$style.description">
+        <div :class="$style.descrpiotion">
           Брестскаяобластная библиотека имени М. Горького
         </div>
+      </div>
+      <div :class="$style.info">
+        <div :class="$style.name">Дата поступления в библиотеку</div>
+        <hr :class="$style.dividerDrop" />
+        <div :class="$style.descrpiotion">28.03.21</div>
       </div>
     </div>
   </div>
@@ -58,18 +62,16 @@
   width: 100%;
   min-height: 100vh;
   display: flex;
-
+  padding-top: 0;
+  position: fixed;
+  padding-right: 0rem;
   .left {
     @include shadow-left;
-    width: 30rem;
+    width: 26.25rem;
     height: 100vh;
     padding-top: 2.25rem;
     padding-right: 1.5rem;
-    padding: 2.25rem 1.25rem 2.25rem 0;
-    position: sticky;
-    top: 0px;
     overflow-y: scroll;
-
     .picture {
       @include shadow;
       width: 100%;
@@ -80,16 +82,17 @@
   }
 
   .right {
-    padding: 2.25rem 0 1.5rem 1.5rem;
-    min-height: 100vh;
-    width: 100%;
+    flex: 1;
+    padding: 2.25rem 1.5rem;
+    height: 100vh;
+    overflow-y: scroll;
     .gallery {
       display: flex;
       justify-content: space-between;
       .picture {
         @include shadow;
-        width: 19.75rem;
-        height: 27.75rem;
+        width: 15.25rem;
+        height: 22.5rem;
         object-fit: cover;
         border-radius: 0.5rem;
       }

@@ -38,7 +38,7 @@ defineProps({
 
 <style lang="scss" module>
 .card {
-  max-width: 52.125rem;
+  max-width: 60.125rem;
   .middle {
     display: flex;
     justify-content: space-between;
@@ -94,9 +94,11 @@ defineProps({
       }
       .leftShadow {
         @include shadow-left;
+        background: linear-gradient(to left, $dark-green, rgba(0, 0, 0, 0));
       }
       .rightShadow {
         @include shadow-right;
+        background: linear-gradient(to right, $dark-green, rgba(0, 0, 0, 0));
       }
     }
   }
@@ -111,9 +113,11 @@ defineProps({
     }
     .topShadow {
       @include shadow-top;
+      background: linear-gradient(to top, $dark-green, rgba(0, 0, 0, 0));
     }
     .bottomShadow {
       @include shadow-bottom;
+      background: linear-gradient(to bottom, $dark-green, rgba(0, 0, 0, 0));
     }
   }
 }

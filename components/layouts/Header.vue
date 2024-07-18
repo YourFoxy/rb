@@ -1,16 +1,16 @@
 <template>
   <div :class="$style.header">
     <div :class="$style.left">
-      <Icon :class="$style.icon" icon="logo" is-pointer size="logo" />
-
+      <NuxtLink to="/"
+        ><Icon :class="$style.icon" icon="logo" is-pointer size="logo" />
+      </NuxtLink>
       <div
         :class="[$style.section, { [$style.active]: active === section }]"
-        href=""
-        v-for="section in SECTIONS"
+        v-for="(section, index) in SECTIONS"
         :key="section"
         @click="setActive(section)"
       >
-        <NuxtLink to="/books">
+        <NuxtLink v-bind:to="'/books' + index">
           {{ section }}
         </NuxtLink>
       </div>
@@ -39,7 +39,7 @@ import Icon from "~/components/common/Icon.vue";
 import { ref, onMounted } from "vue";
 const hover = ref(false);
 
-const SECTIONS = ["Редкие книги", "Фондодержатели", ""];
+const SECTIONS = ["Редкие книги", "Фондодержатели", "Провененции", ""];
 const active = ref(SECTIONS[0]);
 const setActive = (value) => {
   active.value = value;
@@ -60,6 +60,10 @@ const setActive = (value) => {
   justify-content: space-between;
   border-radius: 1rem 1rem 0 0;
   margin-top: 1rem;
+  @include laptop {
+    margin-top: 0;
+    border-radius: 0;
+  }
 
   .left {
     display: flex;
