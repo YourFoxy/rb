@@ -1,6 +1,6 @@
 <template>
   <main :class="$style.layout" @scroll="scrolling">
-    <header><Header /></header>
+    <header v-if="showHeader()"><Header /></header>
     <div :class="$style.content">
       <slot />
     </div>
@@ -10,6 +10,14 @@
 <script setup>
 import Header from "~/components/layouts/Header.vue";
 import { useAppStore } from "~/stores/appStore";
+
+const route = useRoute();
+console.log(route.fullPath);
+
+const showHeader = () => {
+  return route.fullPath !== "/";
+};
+
 const appStore = useAppStore();
 const scrolling = (e) => {
   const markingCards = e.srcElement.getElementsByClassName("markingCard");
@@ -34,13 +42,14 @@ const scrolling = (e) => {
   min-height: 100vh;
   // background-color: #273130;
   // background-color: #dfdfdf;
-  background-color: #dadbe0;
+  // background-color: #dadbe0;
+  background-color: $dark-green;
 
   .content {
     flex: 1 1 auto;
     width: 100%;
     // height: ;
-    background-color: $dark-green;
+    // background-color: $dark-green;
     // background: linear-gradient(
     //     to right bottom,
     //     $dark-green,
@@ -49,7 +58,7 @@ const scrolling = (e) => {
     //   url(https://grainy-gradients.vercel.app/noise.svg);
     max-width: 90rem;
     margin: 0 auto;
-    box-shadow: 0px 0px 12px rgb(0, 0, 0, 0.25);
+    // box-shadow: 0px 0px 12px rgb(0, 0, 0, 0.25);
   }
 }
 </style>

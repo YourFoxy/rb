@@ -1,7 +1,5 @@
 <template>
   <div :class="$style.container">
-    <div @click="r()">{{ i1 }} {{ s2 }}</div>
-
     <div :class="$style.left">
       <FilterСriteria />
       <FilterСriteria :isSelected="true" />
@@ -113,7 +111,7 @@ onMounted(() => {
     overflow-y: scroll;
   }
   .right {
-    @include shadow-right;
+    // @include shadow-right;
     width: 100%;
     min-height: 100vh;
     padding: 2.25rem 0;

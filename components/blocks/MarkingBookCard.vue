@@ -45,6 +45,7 @@ defineProps({
       text-transform: uppercase;
       margin-bottom: 1rem;
       text-align: center;
+      color: $light;
     }
 
     .divider {
@@ -52,7 +53,7 @@ defineProps({
       width: 2px;
       max-height: 25.5rem;
       height: 100%;
-      background-color: $light;
+      background-color: $disabled;
     }
   }
   .isCharacter {

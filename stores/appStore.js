@@ -2,7 +2,13 @@ import { defineStore } from "pinia";
 
 export const useAppStore = defineStore("appStore", {
   state: () => {
-    return { windowWidth: 0, isModalOpen: false, formData: null, services: [] };
+    return {
+      windowWidth: 0,
+      isModalOpen: false,
+      activeSection: 0,
+      formData: null,
+      services: [],
+    };
   },
   getters: {},
   actions: {
@@ -16,6 +22,10 @@ export const useAppStore = defineStore("appStore", {
     },
     setServices(value) {
       this.services = value;
+    },
+    setactiveSection({ value, data }) {
+      alert(value);
+      this.activeSection = value;
     },
   },
 });
