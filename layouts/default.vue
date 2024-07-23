@@ -5,17 +5,29 @@
       <slot />
     </div>
     <footer>Футер</footer>
+    <CommonModal
+      v-if="appStore.isModalOpen"
+      @close-modal="(value) => setLibModal(value)"
+    >
+      <Appointment />
+    </CommonModal>
   </main>
 </template>
+
 <script setup>
 import Header from "~/components/layouts/Header.vue";
 import { useAppStore } from "~/stores/appStore";
-
+import CommonModal from "~/components/modals/CommonModal.vue";
 const route = useRoute();
 console.log(route.fullPath);
 
 const showHeader = () => {
   return route.fullPath !== "/";
+};
+const setLibModal = (value) => {
+  appStore.setIsModalOpen({
+    value,
+  });
 };
 
 const appStore = useAppStore();
@@ -28,11 +40,6 @@ const scrolling = (e) => {
       break;
     }
   }
-
-  const setModal = (value) => {
-    appStore.setIsModalOpen(value);
-    alert("ddd");
-  };
 };
 </script>
 <style lang="scss" module>

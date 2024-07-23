@@ -12,19 +12,24 @@
             { [$style.active]: appStore.activeSection === 0 },
           ]"
         >
-          {{ appStore.activeSection }}
-          <NuxtLink to="/books0"> Редкие книги </NuxtLink>
+          <NuxtLink to="/books"> Редкие книги </NuxtLink>
         </div>
         <div
-          @click="setModal(1)"
+          @click="setLibModal(true)"
           :class="[
             $style.section,
             { [$style.active]: appStore.activeSection === 1 },
           ]"
         >
-          <NuxtLink to="/books1"> Фондодержатели </NuxtLink>
+          <div>Фондодержатели</div>
         </div>
-        <div :class="[$style.section, { [$style.active]: active === section }]">
+        <div
+          @click="setModal(2)"
+          :class="[
+            $style.section,
+            { [$style.active]: appStore.activeSection === 2 },
+          ]"
+        >
           <NuxtLink to="/books2"> Провененции </NuxtLink>
         </div>
       </div>
@@ -61,14 +66,17 @@
     <div :class="$style.right">
       <NuxtLink
         :class="$style.manual"
-        @click="setActive('')"
+        @click="setModal(3)"
         to="/instruction"
         @mouseover="hover = true"
         @mouseleave="hover = false"
       >
         <div :class="$style.icon">i</div>
         <Transition>
-          <div :class="$style.name" v-if="active === '' || hover">
+          <div
+            :class="$style.name"
+            v-if="appStore.activeSection === 3 || hover"
+          >
             Инструкция
           </div>
         </Transition>
@@ -89,6 +97,11 @@ const setModal = (value) => {
   });
 };
 
+const setLibModal = (value) => {
+  appStore.setIsModalOpen({
+    value,
+  });
+};
 const hover = ref(false);
 
 const SECTIONS = ["Редкие книги", "Фондодержатели", "Провененции", ""];

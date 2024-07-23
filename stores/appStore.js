@@ -23,8 +23,7 @@ export const useAppStore = defineStore("appStore", {
     setServices(value) {
       this.services = value;
     },
-    setactiveSection({ value, data }) {
-      alert(value);
+    setactiveSection({ value }) {
       this.activeSection = value;
     },
   },

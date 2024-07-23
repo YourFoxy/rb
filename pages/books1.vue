@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="$style.preview">
+    <div :class="$style.preview" class="scrollEl">
       <img :class="$style.img" src="~/public/images/01.jpg" alt="" />
       <div :class="$style.info">
         <div :class="$style.title">Барановичский краеведческий музей</div>
@@ -24,7 +24,48 @@
   </div>
 </template>
 <script setup>
-import Books from "~/pages/books0.vue";
+import Books from "~/pages/books.vue";
+const appStore = useAppStore();
+
+var previousPosition = ref(window.pageYOffset);
+
+onMounted(() => {
+  window.addEventListener("scroll", function () {
+    const scrollElPosition = document
+      .getElementsByClassName("scrollEl")[0]
+      .getBoundingClientRect();
+    if (scrollElPosition.top > previousPosition.value.y) {
+      previousPosition.value = document
+        .getElementsByClassName("scrollEl")[0]
+        .getBoundingClientRect();
+      window.scrollTo({
+        top: 1200,
+        behavior: "smooth",
+      });
+    }
+    if (scrollElPosition.top.y > 110) {
+      previousPosition.value = scrollElPosition.top;
+    }
+    console.log(previousPosition.value.y);
+    console.log(scrollElPosition.top);
+
+    // document.getElementById("scrollEl").innerHTML = pageYOffset + "1200px";
+  });
+});
+
+// onMounted(() => {
+//   window.addEventListener("scroll", function (e) {
+//     const markingCards = e.srcElement.getElementsByClassName("markingCard");
+
+//     console.log("dddd");
+//     for (let i = 0; i < markingCards.length; i++) {
+//       if (markingCards[i].getBoundingClientRect().top > 0) {
+//         activeCharacter.value = markingCards[i].id;
+//         break;
+//       }
+//     }
+//   });
+// });
 </script>
 <style lang="scss" module>
 .preview {

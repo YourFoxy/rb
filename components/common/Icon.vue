@@ -5,6 +5,7 @@
       { [$style.pointer]: isPointer },
       { [$style.disabled]: isDisabled },
       { [$style.logo]: size === 'logo' },
+      { [$style.close]: size === 'close' },
     ]"
   >
     <img v-if="icon" :src="'/icons/' + icon + '.svg'" alt="icon" />
@@ -72,6 +73,12 @@ defineProps({
         width: 2rem;
         height: 2rem;
       }
+    }
+  }
+  &.close {
+    img {
+      width: 0.75rem;
+      height: 0.75rem;
     }
   }
 }

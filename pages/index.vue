@@ -15,23 +15,15 @@
         Сайте.
       </div>
       <div :class="$style.buttons">
-        <NuxtLink to="/books0"
+        <NuxtLink to="/books" @click="setModal(0)"
           ><img :class="$style.red" src="~/public/images/red.png" alt="" />
         </NuxtLink>
-        <NuxtLink to="/books1"
-          ><img :class="$style.fond" src="~/public/images/fond.png" alt="" />
-        </NuxtLink>
+        <div to="/books1" @click="setLibModal(true)">
+          <img :class="$style.fond" src="~/public/images/fond.png" alt="" />
+        </div>
       </div>
     </div>
     <div :class="$style.background"></div>
-    <!-- <div @click="setModal(true)">svsdrfegfverfgjisdkrpokorvg</div> -->
-
-    <!-- <img :class="$style.img" src="~/public/images/pre.png " alt="" /> -->
-    <!-- <CommonModal
-      v-if="appStore.isModalOpen"
-      @close-modal="(value) => setModal(value)"
-    >
-    </CommonModal > -->
   </div>
 </template>
 <script setup>
@@ -39,6 +31,11 @@ import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
 
 const setModal = (value) => {
+  appStore.setactiveSection({
+    value,
+  });
+};
+const setLibModal = (value) => {
   appStore.setIsModalOpen({
     value,
   });
@@ -76,6 +73,7 @@ const setModal = (value) => {
     }
     .buttons {
       margin-top: 2.75rem;
+      display: flex;
       .red {
         opacity: 0.6;
         &:hover {
