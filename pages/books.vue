@@ -21,20 +21,18 @@
         связаны с Беларусью (до 1917 г.).
       </div>
 
-      <NuxtLink to="/details">
-        <MarkingCard
-          class="markingCard"
-          :class="$style.markingCard"
-          v-for="(character, index) in characters"
-          :key="index"
-          :character="character !== characters[index - 1] ? character : ''"
-          :isCharacterSpaicing="
-            character != characters[index + 1] ? true : false
-          "
-          :id="character"
-          :isMultivolume="true"
-        />
-      </NuxtLink>
+      <!-- <NuxtLink to="/details"> -->
+      <MarkingCard
+        class="markingCard"
+        :class="$style.markingCard"
+        v-for="(character, index) in characters"
+        :key="index"
+        :character="character !== characters[index - 1] ? character : ''"
+        :isCharacterSpaicing="character != characters[index + 1] ? true : false"
+        :id="character"
+        :isMultivolume="false"
+      />
+      <!-- </NuxtLink> -->
     </div>
     <CharacterNavigation
       :class="$style.characterNavigation"

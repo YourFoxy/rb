@@ -7,7 +7,9 @@ export const useAppStore = defineStore("appStore", {
       isModalOpen: false,
       activeSection: 0,
       formData: null,
+      formDataSeries: null,
       services: [],
+      isSeriesModalOpen: false,
     };
   },
   getters: {},
@@ -18,6 +20,14 @@ export const useAppStore = defineStore("appStore", {
         this.formData = data;
       } else {
         this.formData = null;
+      }
+    },
+    setIsSeriesModalOpen({ value, data }) {
+      this.isSeriesModalOpen = value;
+      if (data && this.isSeriesModalOpen) {
+        this.formDataSeries = data;
+      } else {
+        this.formDataSeries = null;
       }
     },
     setServices(value) {

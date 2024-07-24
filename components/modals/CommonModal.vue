@@ -124,7 +124,7 @@ const setLibModal = (value) => {
     }
     .body {
       background: $dark-green;
-      min-height: 100%;
+      min-height: 41.4rem;
       border-radius: 0.75rem;
       .header {
         @include shadow-top;

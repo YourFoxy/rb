@@ -3,7 +3,7 @@
     <div :class="$style.top"><div :class="$style.topShadow"></div></div>
     <div :class="$style.middle">
       <div :class="$style.left"><div :class="$style.leftShadow"></div></div>
-      <div :class="$style.content">
+      <div @click="openBook()" :class="$style.content">
         <div :class="$style.imgBox">
           <img :class="$style.picture" src="~/public/images/0101.jpg" />
           <div :class="$style.mask" v-if="isMultivolume">
@@ -28,12 +28,30 @@
 </template>
 
 <script setup>
-defineProps({
+import { useAppStore } from "~/stores/appStore";
+const appStore = useAppStore();
+const route = useRoute();
+const router = useRouter();
+
+const props = defineProps({
   isMultivolume: {
     type: Boolean,
     default: false,
   },
 });
+
+const setSeriesModal = (value) => {
+  appStore.setIsSeriesModalOpen({
+    value,
+  });
+};
+const openBook = () => {
+  if (props.isMultivolume) {
+    setSeriesModal(true);
+  } else {
+    router.push({ path: "details" });
+  }
+};
 </script>
 
 <style lang="scss" module>
