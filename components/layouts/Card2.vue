@@ -7,9 +7,7 @@
   </div>
 </template>
 
-<script setup>
-import Card from "~/components/blocks/BookCard.vue";
-</script>
+
 
 <style lang="scss" module>
 .card {

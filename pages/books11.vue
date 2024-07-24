@@ -23,7 +23,7 @@
   </div>
 </template>
 <script setup>
-import Books from "~/pages/books0.vue";
+import Books from "~/pages/books.vue";
 </script>
 <style lang="scss" module>
 .preview {
