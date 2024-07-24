@@ -1,36 +1,30 @@
 <template>
   <div :class="$style.container">
     <div :class="$style.left">
-      <FilterСriteria />
-      <FilterСriteria :isSelected="true" />
-      <FilterСriteria />
-      <FilterСriteria />
-      <FilterСriteria />
-      <FilterСriteria />
-      <FilterСriteria />
-      <FilterСriteria />
-      <FilterСriteria />
-      <FilterСriteria />
-      <FilterСriteria />
-      <FilterСriteria />
+      <FilterСriteria
+        v-for="i in criterias"
+        @click="setCriteria(i.id)"
+        :key="i.id"
+        :criteria="i.name"
+        :isSelected="activeCriteria === i.id"
+      />
     </div>
     <div :class="$style.right">
-      <div :class="$style.title">
-        Издания на белорусском языке; книги, изданные в Беларуси; издания о
-        Беларуси и смежных с ней территориях, которые культурой и исторически
-        связаны с Беларусью (до 1917 г.).
+      <div v-if="activeCriteria" :class="$style.title">
+        {{ criterias.find((i) => i.id === activeCriteria).name }}
       </div>
 
       <!-- <NuxtLink to="/details"> -->
       <MarkingCard
         class="markingCard"
         :class="$style.markingCard"
-        v-for="(character, index) in characters"
+        v-for="(character, index) in filteredBooks"
+        :book="character"
         :key="index"
-        :character="character !== characters[index - 1] ? character : ''"
+        :character="character.name[0]"
         :isCharacterSpaicing="character != characters[index + 1] ? true : false"
         :id="character"
-        :isMultivolume="false"
+        :isMultivolume="true"
       />
       <!-- </NuxtLink> -->
     </div>
@@ -45,10 +39,25 @@
 import MarkingCard from "~/components/blocks/MarkingBookCard.vue";
 import FilterСriteria from "~/components/blocks/FilterСriteria.vue";
 import CharacterNavigation from "~/components/blocks/CharacterNavigation.vue";
+import Repository from "~/repository/index.js";
 
 const i1 = ref(0);
 const s = ref(0);
 const s2 = ref(0);
+
+const books = ref([]);
+const criterias = ref([]);
+const activeCriteria = ref("");
+
+const setCriteria = (id) => {
+  activeCriteria.value = id;
+};
+
+const filteredBooks = computed(() => {
+  return activeCriteria.value
+    ? books.value.filter((i) => i.criterion.id == activeCriteria.value)
+    : books.value;
+});
 
 const r = () => {
   while (s.value < 10000) {
@@ -59,27 +68,41 @@ const r = () => {
     s2.value += i;
   }
 };
-const cardText = [
-  "awedf",
-  "afeA",
-  "SFVwaCF",
-  "bEFW",
-  "bEFW",
-  "bEFW",
-  "bEFW",
-  "BERGB",
-  "VERGB",
-  "VERGB",
-  "VERGB",
-  "VERGB",
-];
 
-const characters = cardText.map((element) => {
-  return element[0].toUpperCase();
-});
-const activeCharacter = ref(characters[0]);
+const characters = ref([]);
+const activeCharacter = ref("");
 
-onMounted(() => {
+const setBooks = async () => {
+  const { value, error } = await Repository.Books.getBooks();
+
+  books.value = value.results;
+
+  books.value = books.value.sort((a, b) => {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1;
+    }
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+
+  characters.value = books.value.map((element) => {
+    return element.name[0].toUpperCase();
+  });
+  activeCharacter.value = characters.value[0];
+};
+
+const setCriterias = async () => {
+  const { value, error } = await Repository.Books.getCriteria();
+  criterias.value = value;
+};
+
+onMounted(async () => {
+  //получение книг с сервера
+  await setBooks();
+  await setCriterias();
+
   window.addEventListener("scroll", function (e) {
     const markingCards = e.srcElement.getElementsByClassName("markingCard");
 

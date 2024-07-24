@@ -1,20 +1,27 @@
 <template>
   <div :class="$style.container">
-    <img :class="$style.img" src="~/public/images/01.jpg" alt="" />
+    <img :class="$style.img" :src="librarie.photo" alt="" />
     <div :class="$style.title">
-      Брестскаяобластная библиотека имени М. Горького
+      {{ librarie.name }}
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+defineProps({
+  librarie: {
+    type: Object,
+    default: () => {},
+  },
+});
+</script>
+
 <style lang="scss" module>
 .container {
   @include shadow;
   padding: 1rem;
   border-radius: 0.5rem;
   width: 13.75rem;
-
   background-color: white;
   .img {
     height: 10rem;

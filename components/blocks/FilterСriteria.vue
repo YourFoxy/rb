@@ -4,9 +4,7 @@
       :class="[$style.marker, { [$style.selectedMarker]: isSelected }]"
     ></div>
     <div :class="[$style.text, { [$style.selectedText]: isSelected }]">
-      Издания на белорусском языке; книги, изданные в Беларуси; издания о
-      Беларуси и смежных с ней территориях, которые культурой и исторически
-      связаны с Беларусью (до 1917 г.).
+      {{ criteria }}
     </div>
   </div>
 </template>
@@ -15,6 +13,10 @@ defineProps({
   isSelected: {
     type: Boolean,
     default: false,
+  },
+  criteria: {
+    type: String,
+    default: "",
   },
 });
 </script>

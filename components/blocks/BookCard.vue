@@ -5,21 +5,13 @@
       <div :class="$style.left"><div :class="$style.leftShadow"></div></div>
       <div @click="openBook()" :class="$style.content">
         <div :class="$style.imgBox">
-          <img :class="$style.picture" src="~/public/images/0101.jpg" />
+          <img :class="$style.picture" :src="book.main_photo" />
           <div :class="$style.mask" v-if="isMultivolume">
             <div :class="$style.multivolume">Многотомник</div>
           </div>
         </div>
 
-        <div :class="$style.text">
-          Вундт В. Основы физиологической психологии : [в 16 вып.] / Вильгельм
-          Вундт ; перевод под редакцией А. А. Крогиуса, А. Ф. Лазурского, А. П.
-          Нечаева. - [Санкт-Петербург Вильгельм Вундт ; перевод под редакцией А.
-          А. Крогиуса, А. Ф. Лазурского, А. П. Нечаева. - [Санкт-Петербург
-          Вильгельм Вундт ; перевод под редакцией А. А. Крогиуса, А. Ф.
-          Лазурского, А. П. Нечаева. - [Санкт-Петербург Вундт В. Основы
-          физиологической психологии : [в 16 вып.] / Вильгельм Вундт ;
-        </div>
+        <div :class="$style.text">{{ book.name }} {{ book.description }}</div>
       </div>
       <div :class="$style.right"><div :class="$style.rightShadow"></div></div>
     </div>
@@ -37,6 +29,10 @@ const props = defineProps({
   isMultivolume: {
     type: Boolean,
     default: false,
+  },
+  book: {
+    type: Object,
+    default: () => {},
   },
 });
 
@@ -57,10 +53,12 @@ const openBook = () => {
 <style lang="scss" module>
 .card {
   max-width: 60.125rem;
+  width: 100%;
   .middle {
     display: flex;
     justify-content: space-between;
     height: 19.5rem;
+    width: 100%;
     .content {
       @include shadow;
       margin: 1.5rem;
@@ -68,6 +66,7 @@ const openBook = () => {
       background-color: $green;
       border-radius: 1.25rem 1.25rem 0 1.25rem;
       display: flex;
+      width: 100%;
 
       .imgBox {
         .picture {

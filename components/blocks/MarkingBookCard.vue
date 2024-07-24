@@ -9,7 +9,7 @@
 
       <div :class="$style.divider"></div>
     </div>
-    <Card :isMultivolume="isMultivolume" />
+    <Card :isMultivolume="isMultivolume" :book="book" />
   </div>
 </template>
 
@@ -28,6 +28,10 @@ defineProps({
   isCharacterSpaicing: {
     type: Boolean,
     default: false,
+  },
+  book: {
+    type: Object,
+    default: () => {},
   },
 });
 </script>

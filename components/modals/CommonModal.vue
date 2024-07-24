@@ -8,31 +8,22 @@
       <div :class="$style.body">
         <div :class="$style.header">
           <div
-            @click="setActive(0)"
-            :class="[$style.button, { [$style.active]: active === 0 }]"
+            v-for="(typ, index) in librariesTypes"
+            :key="typ.id"
+            @click="setActive(index)"
+            :class="[$style.button, { [$style.active]: index === activeType }]"
           >
-            ПУБЛИЧНЫЕ БИБЛИОТЕКИ
-          </div>
-          <div
-            @click="setActive(1)"
-            :class="[$style.button, { [$style.active]: active === 1 }]"
-          >
-            БИБЛИОТЕКИ ВУЗОВ
-          </div>
-          <div
-            @click="setActive(2)"
-            :class="[$style.button, { [$style.active]: active === 2 }]"
-          >
-            МУЗЕИ
+            {{ typ.name }}
           </div>
         </div>
         <div @click="setLibModal(1)" :class="$style.Cards">
-          <NuxtLink to="/books1"> <Card :class="$style.card" /> </NuxtLink>
-          <Card :class="$style.card" />
-          <Card :class="$style.card" /> <Card :class="$style.card" />
-          <Card :class="$style.card" /> <Card :class="$style.card" />
-          <Card :class="$style.card" /> <Card :class="$style.card" />
-          <Card :class="$style.card" />
+          <NuxtLink
+            to="/books1"
+            v-for="librarie in filteredLibraries"
+            :key="librarie.id"
+          >
+            <Card :librarie="librarie" :class="$style.card" />
+          </NuxtLink>
         </div>
 
         <slot></slot>
@@ -47,11 +38,20 @@ import Card from "~/components/lib/Card.vue";
 const emits = defineEmits(["close-modal"]);
 import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
+import Repository from "~/repository/index.js";
 
-const active = ref(0);
+const activeType = ref(0);
+const libraries = ref([]);
+const librariesTypes = ref([]);
+
+const filteredLibraries = computed(() => {
+  const type = librariesTypes.value[activeType.value];
+  console.log(librariesTypes.value);
+  return libraries.value.filter((i) => i.type.id == type.id);
+});
 
 const setActive = (value) => {
-  active.value = value;
+  activeType.value = value;
 };
 
 const setLibModal = (value) => {
@@ -60,6 +60,21 @@ const setLibModal = (value) => {
     value,
   });
 };
+
+const getLibraries = async () => {
+  const { value, error } = await Repository.Books.getLibraries();
+  libraries.value = value;
+};
+const getLibrariesTypes = async () => {
+  const { value, error } = await Repository.Books.getLibrariesTypes();
+  librariesTypes.value = value;
+  console.log(librariesTypes.value);
+};
+
+onMounted(async () => {
+  await getLibrariesTypes();
+  await getLibraries();
+});
 </script>
 
 <style lang="scss" module>
