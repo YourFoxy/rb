@@ -7,6 +7,8 @@
   </div>
 </template>
 
+
+
 <style lang="scss" module>
 .card {
   width: 13.75rem;

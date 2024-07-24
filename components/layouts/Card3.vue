@@ -11,23 +11,24 @@
   height: 13.75rem;
   align-content: center;
   cursor: pointer;
+  text-align: center;
 
   .picture {
     width: 9.375rem;
-    height: 100%;
+    height: 13.75rem;
     border-radius: 0.25rem;
     object-fit: cover;
     box-shadow: 4px 0px 12px rgb(0, 0, 0, 0.15);
+    text-align: center;
   }
   .name {
     @include TextBold;
     width: 12.5rem;
-    // height: 1.875rem;
+    background-color: $dark-green;
     text-align: center;
     position: relative;
     padding: 0.75rem;
-    top: 150px;
-    background-color: $dark-green;
+    top: 12rem;
     box-shadow: 0px 10px 12px rgb(0, 0, 0, 0.15);
   }
 }

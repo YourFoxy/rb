@@ -9,7 +9,11 @@ export default defineNuxtConfig({
     },
   },
   devtools: { enabled: true },
-  css: ["@/assets/styles/reset.scss", "@/assets/styles/common.scss"],
+  css: [
+    "@/assets/styles/reset.scss",
+    "@/assets/styles/common.scss",
+    "@/assets/styles/scrollbar.scss",
+  ],
   vite: {
     plugins: [svgLoader()],
     resolve: {

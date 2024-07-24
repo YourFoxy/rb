@@ -1,34 +1,111 @@
 <template>
   <div :class="$style.header">
     <div :class="$style.left">
-      <Icon :class="$style.icon" icon="logo" is-pointer size="logo" />
+      <NuxtLink to="/"
+        ><Icon :class="$style.icon" icon="logo" is-pointer size="logo" />
+      </NuxtLink>
+      <div :class="$style.sections">
+        <div
+          @click="setModal(0)"
+          :class="[
+            $style.section,
+            { [$style.active]: appStore.activeSection === 0 },
+          ]"
+        >
+          <NuxtLink to="/books"> Редкие книги </NuxtLink>
+        </div>
+        <div
+          @click="setLibModal(true)"
+          :class="[
+            $style.section,
+            { [$style.active]: appStore.activeSection === 1 },
+          ]"
+        >
+          <div>Фондодержатели</div>
+        </div>
+        <div
+          @click="setModal(2)"
+          :class="[
+            $style.section,
+            { [$style.active]: appStore.activeSection === 2 },
+          ]"
+        >
+          <NuxtLink to="/books2"> Провененции </NuxtLink>
+        </div>
+      </div>
 
-      <div
+      <!-- <div :class="[$style.section, { [$style.active]: active === section }]">
+        <NuxtLink v-bind:to="'/books0' + index">
+          {{ 1 }}
+        </NuxtLink>
+        <NuxtLink v-bind:to="'/books1' + index">
+          {{ 2 }}
+        </NuxtLink>
+        <NuxtLink v-bind:to="'/books2' + index">
+          {{ 3 }}
+        </NuxtLink>
+      </div> -->
+    </div>
+    <!-- <div
         :class="[$style.section, { [$style.active]: active === section }]"
-        href=""
-        v-for="section in SECTIONS"
+        v-for="(section, index) in SECTIONS"
         :key="section"
         @click="setActive(section)"
-        @click.stop="emits(section, false)"
       >
-        {{ section }}
+        <NuxtLink v-bind:to="'/books0' + index">
+          {{ section }}
+        </NuxtLink>
+        <NuxtLink v-bind:to="'/books1' + index">
+          {{ section }}
+        </NuxtLink>
+        <NuxtLink v-bind:to="'/books2' + index">
+          {{ section }}
+        </NuxtLink>
       </div>
-    </div>
+    </div> -->
     <div :class="$style.right">
-      <div :class="$style.icon">i</div>
-      <div :class="$style.manual" @click="setActive('')">Инструкция</div>
+      <NuxtLink
+        :class="$style.manual"
+        @click="setModal(3)"
+        to="/instruction"
+        @mouseover="hover = true"
+        @mouseleave="hover = false"
+      >
+        <div :class="$style.icon">i</div>
+        <Transition>
+          <div
+            :class="$style.name"
+            v-if="appStore.activeSection === 3 || hover"
+          >
+            Инструкция
+          </div>
+        </Transition>
+      </NuxtLink>
     </div>
   </div>
 </template>
 
 <script setup>
 import Icon from "~/components/common/Icon.vue";
+import { ref, onMounted } from "vue";
+import { useAppStore } from "~/stores/appStore";
+const appStore = useAppStore();
 
-const isI = true;
-const SECTIONS = ["Редкие книги", "Фондодержатели", ""];
+const setModal = (value) => {
+  appStore.setactiveSection({
+    value,
+  });
+};
+
+const setLibModal = (value) => {
+  appStore.setIsModalOpen({
+    value,
+  });
+};
+const hover = ref(false);
+
+const SECTIONS = ["Редкие книги", "Фондодержатели", "Провененции", ""];
 const active = ref(SECTIONS[0]);
-
-const emits = defineEmits(SECTIONS);
 const setActive = (value) => {
   active.value = value;
 };
@@ -37,22 +114,31 @@ const setActive = (value) => {
 <style lang="scss" module>
 .header {
   @include container;
-  @include shadow;
+  // @include shadow;
   width: 100%;
-  height: 3.25rem;
+  height: 4.25rem;
   background-color: $dark-green;
   display: flex;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 1px solid $white-opacity;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid $disabled;
   justify-content: space-between;
+  border-radius: 1rem 1rem 0 0;
+  margin-top: 1rem;
+  @include laptop {
+    margin-top: 0;
+    border-radius: 0;
+  }
 
   .left {
     display: flex;
-
     .icon {
       cursor: pointer;
       padding-right: 1.5rem;
+    }
+    .sections {
+      align-self: center;
+      display: flex;
     }
     .section {
       @include LargTextBold;
@@ -60,32 +146,40 @@ const setActive = (value) => {
       align-self: center;
       padding-right: 1rem;
       color: $disabled;
-
+      &:hover {
+        color: $light;
+        opacity: 70%;
+      }
       &.active {
         color: $light;
+        opacity: 100%;
       }
     }
   }
   .right {
     display: flex;
-    .icon {
-      cursor: pointer;
-    }
-    .icon {
-      @include LargTextBold;
-      align-self: center;
-      border-radius: 50rem;
-      height: 1.3rem;
-      width: 1.3rem;
-      padding-left: 0.1rem;
-      border: 2px solid $light;
-      text-align: center;
-    }
+
     .manual {
       @include LargTextBold;
+      display: flex;
       cursor: pointer;
-      align-self: center;
-      padding-left: 0.5rem;
+
+      .icon {
+        @include LargTextBold;
+        align-self: center;
+        border-radius: 50rem;
+        height: 1.3rem;
+        width: 1.3rem;
+        padding-left: 0.1rem;
+        border: 2px solid $light;
+        text-align: center;
+      }
+      .name {
+        align-self: center;
+        padding-left: 0.5rem;
+        transition: 22.3s;
+        transition: transform 150ms ease-in-out;
+      }
     }
   }
 }

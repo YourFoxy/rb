@@ -1,7 +1,8 @@
 @mixin container {
-  max-width: 80rem;
+  max-width: 90rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+
   margin-left: auto;
   margin-right: auto;
   @include xl-tablet {
@@ -10,18 +11,37 @@
   }
 }
 
-@mixin shadow {
+@mixin content {
   box-shadow: 0px 0px 12px rgb(0, 0, 0, 0.25);
+  background-color: $dark-green;
+}
+// @mixin shadow {
+//   box-shadow: 0px 0px 12px rgb(0, 0, 0, 0.25);
+// }
+// @mixin shadow-left {
+//   box-shadow: 10px 0px 12px rgb(0, 0, 0, 0.15);
+// }
+// @mixin shadow-right {
+//   box-shadow: -10px 0px 12px rgb(0, 0, 0, 0.15);
+// }
+// @mixin shadow-top {
+//   box-shadow: 0px 10px 12px rgb(0, 0, 0, 0.15);
+// }
+// @mixin shadow-bottom {
+//   box-shadow: 0px -10px 12px rgb(0, 0, 0, 0.15);
+// }
+@mixin shadow {
+  box-shadow: 0px 0px 12px rgb(140, 140, 140, 0.25);
 }
 @mixin shadow-left {
-  box-shadow: 10px 0px 12px rgb(0, 0, 0, 0.15);
+  box-shadow: 10px 0px 12px rgb(140, 140, 140, 0.25);
 }
 @mixin shadow-right {
-  box-shadow: -10px 0px 12px rgb(0, 0, 0, 0.15);
+  box-shadow: -10px 0px 12px rgb(140, 140, 140, 0.25);
 }
 @mixin shadow-top {
-  box-shadow: 0px 10px 12px rgb(0, 0, 0, 0.15);
+  box-shadow: 0px 10px 12px rgb(140, 140, 140, 0.25);
 }
 @mixin shadow-bottom {
-  box-shadow: 0px -10px 12px rgb(0, 0, 0, 0.15);
+  box-shadow: 0px -10px 12px rgb(140, 140, 140, 0.25);
 }

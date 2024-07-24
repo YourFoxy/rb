@@ -7,6 +7,15 @@
   letter-spacing: 0.1rem;
   color: $light;
 }
+@mixin H1-5 {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-size: 3.5rem;
+  font-style: normal;
+  letter-spacing: 0.1rem;
+  color: $light;
+}
 @mixin H2 {
   font-family: "Montserrat", sans-serif;
   font-optical-sizing: auto;
