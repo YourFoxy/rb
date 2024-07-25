@@ -21,6 +21,9 @@ onMounted(async () => {
   margin: 0;
 }
 .wrapper {
-  padding: 2rem 0 0 0;
+  padding: 2rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 </style>
