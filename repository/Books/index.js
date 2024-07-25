@@ -98,7 +98,9 @@ class Books {
     };
 
     try {
-      const response = await ApiConnector.connector.get(`/books/provenentions/`);
+      const response = await ApiConnector.connector.get(
+        `/books/provenentions/`
+      );
       result.value = response.data;
     } catch (e) {
       result.error = true;

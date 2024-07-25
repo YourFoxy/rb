@@ -1,11 +1,13 @@
 <template>
   <div :class="$style.card">
-    <div :class="$style.name">{{ card.name }}</div>
-    <img :class="$style.picture" :src="card.photo" />
+    <!-- <div :class="$style.name">{{ card.name }}</div> -->
+
+    <img :class="$style.picture" :src="card.main_photo || noPhoto" />
   </div>
 </template>
 
 <script setup>
+const noPhoto = ref("~/public/images/noPhoto.png");
 defineProps({
   card: {
     type: Object,

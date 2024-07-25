@@ -59,9 +59,23 @@ const criterias = ref([]);
 const series = ref([]);
 const activeCriteria = ref("");
 
+const title = ref("");
+
 const setCriteria = (id) => {
   activeCriteria.value = id;
 };
+
+const filteredCriterias = computed(() => {
+  criterias.value = criterias.value.sort((a, b) => {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1;
+    }
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+});
 
 const filteredBooks = computed(() => {
   const resp = [];
@@ -104,16 +118,6 @@ const filteredBooks = computed(() => {
 
   return resp;
 });
-
-const r = () => {
-  while (s.value < 10000) {
-    s.value += i1.value;
-    i1.value++;
-  }
-  for (let i = 0; i <= i1.value; i++) {
-    s2.value += i;
-  }
-};
 
 const characters = ref([]);
 const activeCharacter = ref("");
@@ -183,6 +187,7 @@ onMounted(async () => {
     overflow: hidden;
     top: 0px;
     overflow-y: scroll;
+    border-right: 2px solid #cececc;
   }
   .right {
     // @include shadow-right;

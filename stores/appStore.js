@@ -8,8 +8,10 @@ export const useAppStore = defineStore("appStore", {
       activeSection: 0,
       formData: null,
       formDataSeries: null,
+      formDataProv: null,
       services: [],
       isSeriesModalOpen: false,
+      isProvModalOpen: false,
     };
   },
   getters: {},
@@ -28,6 +30,15 @@ export const useAppStore = defineStore("appStore", {
         this.formDataSeries = data;
       } else {
         this.formDataSeries = null;
+      }
+    },
+    setIsProvModalOpen({ value, data }) {
+      this.isProvModalOpen = value;
+
+      if (data && this.isProvModalOpen) {
+        this.formDataProv = data;
+      } else {
+        this.formDataProv = null;
       }
     },
     setServices(value) {

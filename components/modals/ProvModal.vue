@@ -2,24 +2,16 @@
   <div :class="$style.popup">
     <div
       :class="$style.overlay"
-      @click="emits('close-series-modal', false)"
+      @click="emits('close-prov-modal', false)"
     ></div>
     <div :class="$style.content" @click.stop>
-      <div
-        :class="$style.close"
-        @click.stop="emits('close-series-modal', false)"
-      >
+      <div :class="$style.close" @click.stop="emits('close-prov-modal', false)">
         <Icon icon="close" is-pointer size="close" />
       </div>
       <div :class="$style.body">
         <div :class="$style.left">
-          <img :class="$style.img" :src="book.photo" alt="" />
-          <div :class="$style.title">
-            {{ book.name }}
-          </div>
-          <div :class="$style.text">
-            {{ book.description }}
-          </div>
+          <div :class="$style.title">book.name</div>
+          <div :class="$style.text">book.description</div>
         </div>
         <div :class="$style.right">
           <Card3
@@ -39,33 +31,25 @@
 <script setup>
 import Icon from "~/components/common/Icon.vue";
 import Card3 from "~/components/layouts/Card3.vue";
-const emits = defineEmits(["close-series-modal"]);
+const emits = defineEmits(["close-prov-modal"]);
 import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
 const router = useRouter();
 
-const props = defineProps({
-  book: {
-    type: Object,
-    default: () => {},
-  },
-  activeCriteria: {
-    type: Number,
-  },
-});
+// const props = defineProps({});
 
 const openPage = (id) => {
   router.push({ path: "details", query: { id: id } });
 };
 
-const filteredBooks = computed(() => {
-  // if (props.book.books) {
-  //   return props.activeCriteria
-  //     ? props.book.books.filter((i) => i.criterion.id == props.activeCriteria)
-  //     : props.book.books;
-  // } else return [];
-  return props.book.books;
-});
+// const filteredBooks = computed(() => {
+//   // if (props.book.books) {
+//   //   return props.activeCriteria
+//   //     ? props.book.books.filter((i) => i.criterion.id == props.activeCriteria)
+//   //     : props.book.books;
+//   // } else return [];
+//   return props.book.books;
+// });
 </script>
 
 <style lang="scss" module>
@@ -144,12 +128,6 @@ const filteredBooks = computed(() => {
         top: 0px;
         overflow-y: scroll;
         padding: 1.5rem;
-        .img {
-          height: 14rem;
-          width: 9.75rem;
-          object-fit: cover;
-          border-radius: 0.25rem;
-        }
         .title {
           @include LargTextBold;
           margin-bottom: 1rem;
@@ -170,7 +148,7 @@ const filteredBooks = computed(() => {
         overflow-y: scroll;
 
         .card {
-          margin-top: 1.5rem;
+          margin-bottom: 1.5rem;
 
           // padding: 0 2.5rem;
         }

@@ -5,6 +5,7 @@
       <slot />
     </div>
     <footer></footer>
+
     <CommonModal
       v-if="appStore.isModalOpen"
       @close-modal="(value) => setLibModal(value)"
@@ -28,7 +29,11 @@ const setLibModal = (value) => {
     value,
   });
 };
-
+const setProvModal = (value) => {
+  appStore.setIsProvModalOpen({
+    value,
+  });
+};
 const scrolling = (e) => {
   const markingCards = e.srcElement.getElementsByClassName("markingCard");
   console.log("dddd");

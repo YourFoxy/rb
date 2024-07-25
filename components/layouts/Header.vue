@@ -30,7 +30,7 @@
             { [$style.active]: appStore.activeSection === 2 },
           ]"
         >
-          <NuxtLink to="/books2"> Провененции </NuxtLink>
+          <!-- <NuxtLink to="/books2"> Провененции </NuxtLink> -->
         </div>
       </div>
 

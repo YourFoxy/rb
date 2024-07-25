@@ -9,36 +9,31 @@
           v-for="photo in book.photos"
           :key="photo"
           :class="$style.picture"
-          :src="photo"
+          :src="photo.photo"
         />
       </div>
-      <div :class="$style.title">
-        {{ book.name }}
-      </div>
-      <div :class="$style.text">
-        {{ book.description }}
-      </div>
+      <div :class="$style.title" v-html="book.name"></div>
+      <div :class="$style.text" v-html="book.description"></div>
 
       <hr :class="$style.divider" />
-      <div :class="$style.info">
+      <div :class="$style.info" v-if="book.entered_at != ''">
         <div :class="$style.name">Дата поступления в библиотеку</div>
         <hr :class="$style.dividerDrop" />
         <div :class="$style.description">
           {{
             book.entered_at
               ? book.entered_at.substr(0, 10).split("-").reverse().join(".") +
-                " " +
-                book.entered_at.substr(11, 5)
+                " "
               : "не указано"
           }}
         </div>
       </div>
-      <div :class="$style.info">
+      <div :class="$style.info" v-if="book.inventory_number != ''">
         <div :class="$style.name">Инвентарный номер</div>
         <hr :class="$style.dividerDrop" />
         <div :class="$style.description">{{ book.inventory_number }}</div>
       </div>
-      <div :class="$style.info">
+      <div :class="$style.info" v-if="book.presenter != ''">
         <div :class="$style.name">Подарено</div>
         <hr :class="$style.dividerDrop" />
         <div :class="$style.description">
@@ -48,21 +43,45 @@
 
       <div :class="$style.subtitle">Фондодержатели:</div>
       <div :class="$style.biblioCards">
-        <LibCard v-for="i in book.libraries" :key="i.id" :librarie="i" />
+        <LibCard
+          :class="$style.card"
+          v-for="i in book.libraries"
+          :key="i.id"
+          :librarie="i"
+        />
       </div>
-      <div :class="$style.subtitle">Провененции:</div>
-      <div :class="$style.biblioCards">
-        <LibCard v-for="i in book.provenentions" :key="i.id" :librarie="i" />
+      <div :class="$style.subtitle" v-if="showProvenentions()">
+        Провененции:
+      </div>
+      <div :class="$style.provenentions">
+        <ProvCard
+          :class="$style.card"
+          v-for="i in book.provenentions"
+          :key="i.id"
+          :librarie="i"
+        />
       </div>
     </div>
   </div>
 </template>
 <script setup>
 import LibCard from "~/components/lib/Card.vue";
+import ProvCard from "~/components/prov/Card.vue";
+
 import Repository from "~/repository/index.js";
+import { useAppStore } from "~/stores/appStore";
+const appStore = useAppStore();
 
 const route = useRoute();
 const book = ref({});
+
+const showProvenentions = () => {
+  if (book.value.provenentions != "") {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 onMounted(async () => {
   const { value, error } = await Repository.Books.getBook(route.query.id);
@@ -103,7 +122,8 @@ onMounted(async () => {
     width: 100%;
     .gallery {
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
+      gap: 1.5rem;
       .picture {
         @include shadow;
         width: 19.75rem;
@@ -152,6 +172,22 @@ onMounted(async () => {
       @include Subtitle-bold;
       opacity: 0.5;
       margin-top: 2.25rem;
+    }
+    .biblioCards {
+      display: flex;
+      margin-top: 1rem;
+      .card {
+        margin-right: 1rem;
+      }
+    }
+    .provenentions {
+      display: flex;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      .card {
+        margin-right: 1rem;
+      }
     }
   }
 }

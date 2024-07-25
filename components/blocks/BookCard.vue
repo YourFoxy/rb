@@ -5,13 +5,16 @@
       <div :class="$style.left"><div :class="$style.leftShadow"></div></div>
       <div @click="openBook()" :class="$style.content">
         <div :class="$style.imgBox">
-          <img :class="$style.picture" :src="book.main_photo" />
+          <img :class="$style.picture" :src="book.main_photo || book.photo" />
+
           <div :class="$style.mask" v-if="isMultivolume">
             <div :class="$style.multivolume">Многотомник</div>
           </div>
         </div>
-
-        <div :class="$style.text">{{ book.name }} {{ book.description }}</div>
+        <div :class="$style.text">
+          <div :class="$style.title" v-html="book.name"></div>
+          <div :class="$style.description" v-html="book.description"></div>
+        </div>
       </div>
       <div :class="$style.right"><div :class="$style.rightShadow"></div></div>
     </div>
@@ -73,6 +76,7 @@ const openBook = () => {
     width: 100%;
     .content {
       @include shadow;
+      cursor: pointer;
       margin: 1.5rem;
       padding: 1rem;
       background-color: $green;
@@ -111,6 +115,11 @@ const openBook = () => {
         @include LargText;
         padding-left: 0.75rem;
         overflow: hidden;
+        text-align: justify;
+        .title {
+          @include LargTextBold;
+          margin-bottom: 0rem;
+        }
       }
     }
     .left,
