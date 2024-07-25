@@ -14,35 +14,19 @@
       <div :class="$style.body">
         <div :class="$style.left">
           <div :class="$style.title">
-            Марта, К. Философы и поэты-моралисты во времена Римской Империи /
-            сочинение Констана Марта. - Москва : издание К. Т. Солдатенкова,
-            1879 : Типография Мартынова и К'., на Тверской ул., д. Хомяковых. -
-            380, [1] с. ББК 87.3(0)323 ББК 83.3(0)323
+            {{ book.name }}
           </div>
           <div :class="$style.text">
-            Прижизненное издание Бенджамина-Константа Марта, также писавшего под
-            именем Константа Марта (1820–1895), французского моралиста, историка
-            античной морали, члена Академии моральных и политических наук. Книга
-            посвящена философам, исследующим нравственность, и поэтам-моралистам
-            времён Римской империи, включает рассказы о жизни и творчестве Луция
-            Аннея Сенеки, Эпиктета, императора Марка Аврелия и др. Является
-            изданием Козьмы Терентьевича Солдатёнкова (1818–1901), который в
-            1856 г. организовал издательство, а в 1857 г. открыл книжный
-            магазин. Стремясь сделать книги доступными широкому читателю, часто
-            продавал их ниже себестоимости. Книга в полукожаном переплёте с
-            тиснением: картон, покрытый мраморной бумагой, корешок из коричневой
-            кожи, кругленый передний обрез. В книге штампы: «Гродненская
-            Областная БИБЛИОТЕКА», «ИЗЪ БИБЛИОТЕКИ С. П. Бургской ДУХОВНОЙ
-            АКАДЕМIИ.».
+            {{ book.description }}
           </div>
         </div>
         <div :class="$style.right">
-          <Card3 :class="$style.card" />
-          <Card3 :class="$style.card" />
-          <Card3 :class="$style.card" />
-          <Card3 :class="$style.card" />
-          <Card3 :class="$style.card" />
-          <Card3 :class="$style.card" />
+          <Card3
+            v-for="card in filteredBooks"
+            :key="card.id"
+            :card="card"
+            :class="$style.card"
+          />
         </div>
         <slot></slot>
       </div>
@@ -57,18 +41,23 @@ const emits = defineEmits(["close-series-modal"]);
 import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
 
-const active = ref(0);
+const props = defineProps({
+  book: {
+    type: Object,
+    default: () => {},
+  },
+  activeCriteria: {
+    type: Number,
+  },
+});
 
-const setActive = (value) => {
-  active.value = value;
-};
-
-const setLibModal = (value) => {
-  emits("close-series-modal", false);
-  appStore.setactiveSection({
-    value,
-  });
-};
+const filteredBooks = computed(() => {
+  if (props.book.books) {
+    return props.activeCriteria
+      ? props.book.books.filter((i) => i.criterion.id == props.activeCriteria)
+      : props.book.books;
+  } else return [];
+});
 </script>
 
 <style lang="scss" module>
@@ -141,6 +130,7 @@ const setLibModal = (value) => {
         @include shadow-left;
         max-height: 41.4rem;
         max-width: 31rem;
+        width: 100%;
         position: sticky;
         overflow: hidden;
         top: 0px;

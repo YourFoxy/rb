@@ -9,7 +9,7 @@
 
       <div :class="$style.divider"></div>
     </div>
-    <Card :isMultivolume="isMultivolume" :book="book" />
+    <Card :isMultivolume="isMultivolume" :book="book" :activeCriteria="activeCriteria" />
   </div>
 </template>
 
@@ -32,6 +32,9 @@ defineProps({
   book: {
     type: Object,
     default: () => {},
+  },
+  activeCriteria: {
+    type: Number,
   },
 });
 </script>

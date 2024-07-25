@@ -61,6 +61,21 @@ class Books {
 
     return result;
   };
+  getSeries = async () => {
+    const result = {
+      value: false,
+      error: null,
+    };
+
+    try {
+      const response = await ApiConnector.connector.get(`/series/`);
+      result.value = response.data;
+    } catch (e) {
+      result.error = true;
+    }
+
+    return result;
+  };
 }
 
 export default new Books();

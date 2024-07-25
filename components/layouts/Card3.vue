@@ -1,9 +1,18 @@
 <template>
   <div :class="$style.card">
-    <div :class="$style.name">Том 1</div>
-    <img :class="$style.picture" src="~/public/images/0101.jpg" />
+    <div :class="$style.name">{{ card.name }}</div>
+    <img :class="$style.picture" :src="card.photo" />
   </div>
 </template>
+
+<script setup>
+defineProps({
+  card: {
+    type: Object,
+    default: () => {},
+  },
+});
+</script>
 
 <style lang="scss" module>
 .card {

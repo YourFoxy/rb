@@ -17,9 +17,17 @@
     </div>
     <div :class="$style.bottom"><div :class="$style.bottomShadow"></div></div>
   </div>
+  <SeriesModal
+    v-if="appStore.isSeriesModalOpen"
+    @close-series-modal="(value) => setSeriesModal(value)"
+    :book="book"
+    :activeCriteria="activeCriteria"
+  >
+  </SeriesModal>
 </template>
 
 <script setup>
+import SeriesModal from "~/components/modals/SeriesModal.vue";
 import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
 const route = useRoute();
@@ -34,6 +42,9 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  activeCriteria: {
+    type: Number,
+  },
 });
 
 const setSeriesModal = (value) => {
@@ -42,6 +53,7 @@ const setSeriesModal = (value) => {
   });
 };
 const openBook = () => {
+  console.log(props.book);
   if (props.isMultivolume) {
     setSeriesModal(true);
   } else {

@@ -9,14 +9,7 @@
       v-if="appStore.isModalOpen"
       @close-modal="(value) => setLibModal(value)"
     >
-      <Appointment />
     </CommonModal>
-    <SeriesModal
-      v-if="appStore.isSeriesModalOpen"
-      @close-series-modal="(value) => setSeriesModal(value)"
-    >
-      <Appointment />
-    </SeriesModal>
   </main>
 </template>
 
@@ -24,21 +17,14 @@
 import Header from "~/components/layouts/Header.vue";
 import { useAppStore } from "~/stores/appStore";
 import CommonModal from "~/components/modals/CommonModal.vue";
-import SeriesModal from "~/components/modals/SeriesModal.vue";
 const route = useRoute();
 const appStore = useAppStore();
-console.log(route.fullPath);
 
 const showHeader = () => {
   return route.fullPath !== "/";
 };
 const setLibModal = (value) => {
   appStore.setIsModalOpen({
-    value,
-  });
-};
-const setSeriesModal = (value) => {
-  appStore.setIsSeriesModalOpen({
     value,
   });
 };

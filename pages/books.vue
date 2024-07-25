@@ -32,7 +32,8 @@
             : false
         "
         :id="character.name[0].toUpperCase()"
-        :isMultivolume="false"
+        :isMultivolume="character.books"
+        :activeCriteria="activeCriteria"
       />
       <!-- </NuxtLink> -->
     </div>
@@ -55,6 +56,7 @@ const s2 = ref(0);
 
 const books = ref([]);
 const criterias = ref([]);
+const series = ref([]);
 const activeCriteria = ref("");
 
 const setCriteria = (id) => {
@@ -62,9 +64,45 @@ const setCriteria = (id) => {
 };
 
 const filteredBooks = computed(() => {
-  return activeCriteria.value
-    ? books.value.filter((i) => i.criterion.id == activeCriteria.value)
-    : books.value;
+  const resp = [];
+  if (activeCriteria.value) {
+    books.value.forEach((i) => {
+      if (i.criterion && i.criterion.id == activeCriteria.value && !i.series) {
+        resp.push(i);
+      } else if (i.books) {
+        let isPushed = false;
+        i.books.forEach((j) => {
+          if (
+            j.criterion &&
+            j.criterion.id == activeCriteria.value &&
+            !isPushed
+          ) {
+            resp.push(i);
+            isPushed = true;
+          }
+        });
+      }
+    });
+  } else {
+    books.value.forEach((i) => {
+      if (i.books) {
+        resp.push(i);
+      } else {
+        if (!i.series) {
+          resp.push(i);
+        }
+      }
+    });
+  }
+
+  characters.value = resp.map((element) => {
+    return element.name[0].toUpperCase();
+  });
+  activeCharacter.value = characters.value[0];
+
+  console.log(resp);
+
+  return resp;
 });
 
 const r = () => {
@@ -82,8 +120,12 @@ const activeCharacter = ref("");
 
 const setBooks = async () => {
   const { value, error } = await Repository.Books.getBooks();
+  await setSeries();
 
   books.value = value.results;
+  //noSeriesBooks.value = value.results.filter((i) => !i.series);
+
+  books.value = books.value.concat(series.value);
 
   books.value = books.value.sort((a, b) => {
     if (a.name.toLowerCase() < b.name.toLowerCase()) {
@@ -95,8 +137,7 @@ const setBooks = async () => {
     return 0;
   });
 
-  characters.value = books.value.map((element) => {
-    console.log(element.name[0].toUpperCase());
+  characters.value = filteredBooks.value.map((element) => {
     return element.name[0].toUpperCase();
   });
   activeCharacter.value = characters.value[0];
@@ -107,6 +148,11 @@ const setCriterias = async () => {
   criterias.value = value;
 };
 
+const setSeries = async () => {
+  const { value, error } = await Repository.Books.getSeries();
+  series.value = value;
+};
+
 onMounted(async () => {
   //получение книг с сервера
   await setBooks();
@@ -114,8 +160,6 @@ onMounted(async () => {
 
   window.addEventListener("scroll", function (e) {
     const markingCards = e.srcElement.getElementsByClassName("markingCard");
-
-    console.log("dddd");
     for (let i = 0; i < markingCards.length; i++) {
       if (markingCards[i].getBoundingClientRect().top > 0) {
         activeCharacter.value = markingCards[i].id;
