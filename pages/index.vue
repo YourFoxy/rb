@@ -35,12 +35,14 @@ const setModal = (value) => {
     value,
   });
 };
+
 const setLibModal = (value) => {
   appStore.setIsModalOpen({
     value,
   });
 };
 </script>
+
 <style lang="scss" module>
 .body {
   width: 100%;

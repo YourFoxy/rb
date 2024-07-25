@@ -40,8 +40,6 @@
 import Icon from "~/components/common/Icon.vue";
 import Card3 from "~/components/layouts/Card3.vue";
 const emits = defineEmits(["close-series-modal"]);
-import { useAppStore } from "~/stores/appStore";
-const appStore = useAppStore();
 const router = useRouter();
 
 const props = defineProps({
