@@ -49,9 +49,17 @@
           Брестскаяобластная библиотека имени М. Горького
         </div>
       </div>
+
+      <div :class="$style.subtitle">Фондодержатели:</div>
+      <div :class="$style.biblioCards"><LibCard /></div>
+      <div :class="$style.subtitle">Провененции:</div>
+      <div :class="$style.ProvCards"></div>
     </div>
   </div>
 </template>
+<script setup>
+import LibCard from "~/components/lib/Card.vue";
+</script>
 <style lang="scss" module>
 .body {
   @include container;
@@ -129,6 +137,11 @@
       .description {
         padding-left: 0.5rem;
       }
+    }
+    .subtitle {
+      @include Subtitle-bold;
+      opacity: 0.5;
+      margin-top: 2.25rem;
     }
   }
 }

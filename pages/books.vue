@@ -11,7 +11,7 @@
     </div>
     <div :class="$style.right">
       <div v-if="activeCriteria" :class="$style.title">
-        {{ criterias.find((i) => i.id === activeCriteria).name }}
+        {{ (criterias.find((i) => i.id === activeCriteria), name) }}
       </div>
 
       <!-- <NuxtLink to="/details"> -->
@@ -21,10 +21,18 @@
         v-for="(character, index) in filteredBooks"
         :book="character"
         :key="index"
-        :character="character.name[0]"
-        :isCharacterSpaicing="character != characters[index + 1] ? true : false"
-        :id="character"
-        :isMultivolume="true"
+        :character="
+          character.name[0].toUpperCase() != characters[index - 1]
+            ? character.name[0]
+            : ''
+        "
+        :isCharacterSpaicing="
+          character.name[0].toUpperCase() != characters[index + 1]
+            ? true
+            : false
+        "
+        :id="character.name[0].toUpperCase()"
+        :isMultivolume="false"
       />
       <!-- </NuxtLink> -->
     </div>
@@ -88,6 +96,7 @@ const setBooks = async () => {
   });
 
   characters.value = books.value.map((element) => {
+    console.log(element.name[0].toUpperCase());
     return element.name[0].toUpperCase();
   });
   activeCharacter.value = characters.value[0];
