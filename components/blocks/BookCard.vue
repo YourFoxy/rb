@@ -57,7 +57,7 @@ const openBook = () => {
   if (props.isMultivolume) {
     setSeriesModal(true);
   } else {
-    router.push({ path: "details" });
+    router.push({ path: "details", query: { id: props.book.id } });
   }
 };
 </script>

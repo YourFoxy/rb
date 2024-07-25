@@ -23,6 +23,7 @@
         <div :class="$style.right">
           <Card3
             v-for="card in filteredBooks"
+            @click="openPage(card.id)"
             :key="card.id"
             :card="card"
             :class="$style.card"
@@ -40,6 +41,7 @@ import Card3 from "~/components/layouts/Card3.vue";
 const emits = defineEmits(["close-series-modal"]);
 import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
+const router = useRouter();
 
 const props = defineProps({
   book: {
@@ -51,12 +53,17 @@ const props = defineProps({
   },
 });
 
+const openPage = (id) => {
+  router.push({ path: "details", query: { id: id } });
+};
+
 const filteredBooks = computed(() => {
-  if (props.book.books) {
-    return props.activeCriteria
-      ? props.book.books.filter((i) => i.criterion.id == props.activeCriteria)
-      : props.book.books;
-  } else return [];
+  // if (props.book.books) {
+  //   return props.activeCriteria
+  //     ? props.book.books.filter((i) => i.criterion.id == props.activeCriteria)
+  //     : props.book.books;
+  // } else return [];
+  return props.book.books;
 });
 </script>
 

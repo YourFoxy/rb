@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   ssr: false,
   app: {
     head: {
-      title: "Заголовок сайта",
+      title: "Редкие книги в собраниях Берестейщины",
     },
   },
   devtools: { enabled: true },

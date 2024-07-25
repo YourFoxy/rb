@@ -1,64 +1,74 @@
 <template>
   <div :class="$style.body">
     <div :class="$style.left">
-      <img :class="$style.picture" src="~/public/images/image.png" />
+      <img :class="$style.picture" :src="book.main_photo" />
     </div>
     <div :class="$style.right">
-      <div :class="$style.gallery">
-        <img :class="$style.picture" src="~/public/images/image.png" />
-        <img :class="$style.picture" src="~/public/images/image.png" />
-        <img :class="$style.picture" src="~/public/images/image.png" />
+      <div v-if="book.photos" :class="$style.gallery">
+        <img
+          v-for="photo in book.photos"
+          :key="photo"
+          :class="$style.picture"
+          :src="photo"
+        />
       </div>
       <div :class="$style.title">
-        Марта, К. Философы и поэты-моралисты во времена Римской Империи /
-        сочинение Констана Марта. - Москва : издание К. Т. Солдатенкова, 1879 :
-        Типография Мартынова и К'., на Тверской ул., д. Хомяковых. - 380, [1] с.
-        ББК 87.3(0)323 ББК 83.3(0)323
+        {{ book.name }}
       </div>
       <div :class="$style.text">
-        Прижизненное издание Бенджамина-Константа Марта, также писавшего под
-        именем Константа Марта (1820–1895), французского моралиста, историка
-        античной морали, члена Академии моральных и политических наук. Книга
-        посвящена философам, исследующим нравственность, и поэтам-моралистам
-        времён Римской империи, включает рассказы о жизни и творчестве Луция
-        Аннея Сенеки, Эпиктета, императора Марка Аврелия и др. Является изданием
-        Козьмы Терентьевича Солдатёнкова (1818–1901), который в 1856 г.
-        организовал издательство, а в 1857 г. открыл книжный магазин. Стремясь
-        сделать книги доступными широкому читателю, часто продавал их ниже
-        себестоимости. Книга в полукожаном переплёте с тиснением: картон,
-        покрытый мраморной бумагой, корешок из коричневой кожи, кругленый
-        передний обрез. В книге штампы: «Гродненская Областная БИБЛИОТЕКА», «ИЗЪ
-        БИБЛИОТЕКИ С. П. Бургской ДУХОВНОЙ АКАДЕМIИ.».
+        {{ book.description }}
       </div>
 
       <hr :class="$style.divider" />
       <div :class="$style.info">
         <div :class="$style.name">Дата поступления в библиотеку</div>
         <hr :class="$style.dividerDrop" />
-        <div :class="$style.description">28.03.21</div>
+        <div :class="$style.description">
+          {{
+            book.entered_at
+              ? book.entered_at.substr(0, 10).split("-").reverse().join(".") +
+                " " +
+                book.entered_at.substr(11, 5)
+              : "не указано"
+          }}
+        </div>
       </div>
       <div :class="$style.info">
         <div :class="$style.name">Инвентарный номер</div>
         <hr :class="$style.dividerDrop" />
-        <div :class="$style.description">1БО277277</div>
+        <div :class="$style.description">{{ book.inventory_number }}</div>
       </div>
       <div :class="$style.info">
         <div :class="$style.name">Подарено</div>
         <hr :class="$style.dividerDrop" />
         <div :class="$style.description">
-          Брестскаяобластная библиотека имени М. Горького
+          {{ book.presenter }}
         </div>
       </div>
 
       <div :class="$style.subtitle">Фондодержатели:</div>
-      <div :class="$style.biblioCards"><LibCard /></div>
+      <div :class="$style.biblioCards">
+        <LibCard v-for="i in book.libraries" :key="i.id" :librarie="i" />
+      </div>
       <div :class="$style.subtitle">Провененции:</div>
-      <div :class="$style.ProvCards"></div>
+      <div :class="$style.biblioCards">
+        <LibCard v-for="i in book.provenentions" :key="i.id" :librarie="i" />
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import LibCard from "~/components/lib/Card.vue";
+import Repository from "~/repository/index.js";
+
+const route = useRoute();
+const book = ref({});
+
+onMounted(async () => {
+  const { value, error } = await Repository.Books.getBook(route.query.id);
+  console.log(value);
+  book.value = value;
+});
 </script>
 <style lang="scss" module>
 .body {

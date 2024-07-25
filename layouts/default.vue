@@ -4,7 +4,7 @@
     <div :class="$style.content">
       <slot />
     </div>
-    <footer>Футер</footer>
+    <footer></footer>
     <CommonModal
       v-if="appStore.isModalOpen"
       @close-modal="(value) => setLibModal(value)"

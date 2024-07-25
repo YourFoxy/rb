@@ -16,6 +16,21 @@ class Books {
 
     return result;
   };
+  getBook = async (id) => {
+    const result = {
+      value: false,
+      error: null,
+    };
+
+    try {
+      const response = await ApiConnector.connector.get(`/books/${id}/`);
+      result.value = response.data;
+    } catch (e) {
+      result.error = true;
+    }
+
+    return result;
+  };
   getCriteria = async () => {
     const result = {
       value: false,
