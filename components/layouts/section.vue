@@ -85,7 +85,6 @@ onMounted(() => {
   window.addEventListener("scroll", function (e) {
     const markingCards = e.srcElement.getElementsByClassName("markingCard");
 
-    console.log("dddd");
     for (let i = 0; i < markingCards.length; i++) {
       if (markingCards[i].getBoundingClientRect().top > 0) {
         activeCharacter.value = markingCards[i].id;
@@ -97,6 +96,5 @@ onMounted(() => {
 </script>
 <style lang="scss" module>
 .container {
-
 }
 </style>

@@ -43,6 +43,7 @@ import Repository from "~/repository/index.js";
 const activeType = ref(0);
 const libraries = ref([]);
 const librariesTypes = ref([]);
+const books = ref([]);
 
 const filteredLibraries = computed(() => {
   const type = librariesTypes.value[activeType.value];
@@ -71,9 +72,45 @@ const getLibrariesTypes = async () => {
   console.log(librariesTypes.value);
 };
 
+const openPage = (id) => {
+  router.push({ path: "details", query: { id: id } });
+};
+
+const filteredBooks = computed(() => {
+  const resp = [];
+
+  return resp;
+});
+
+const setBooks = async () => {
+  const { value, error } = await Repository.Books.getBooks();
+  await setSeries();
+
+  books.value = value.results;
+  //noSeriesBooks.value = value.results.filter((i) => !i.series);
+
+  books.value = books.value.concat(series.value);
+
+  books.value = books.value.sort((a, b) => {
+    if (a.name.toLowerCase() < b.name.toLowerCase()) {
+      return -1;
+    }
+    if (a.name.toLowerCase() > b.name.toLowerCase()) {
+      return 1;
+    }
+    return 0;
+  });
+
+  characters.value = filteredBooks.value.map((element) => {
+    return element.name[0].toUpperCase();
+  });
+  activeCharacter.value = characters.value[0];
+};
+
 onMounted(async () => {
   await getLibrariesTypes();
   await getLibraries();
+  await setBooks();
 });
 </script>
 

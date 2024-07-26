@@ -28,11 +28,13 @@ defineProps({
   margin-bottom: 1.5rem;
   cursor: pointer;
   .marker {
-    min-width: 1.125rem;
-    height: 1.125rem;
+    min-width: 0.75rem;
+    height: 0.75rem;
     margin-right: 0.75rem;
     margin-top: 0.2rem;
     background-color: $disabled;
+    opacity: 0.7;
+    border-radius: 0.1rem;
   }
   .selectedMarker {
     background-color: $light;

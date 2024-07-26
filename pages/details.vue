@@ -92,13 +92,15 @@ onMounted(async () => {
 <style lang="scss" module>
 .body {
   @include container;
+  @include body-shadow;
   width: 100%;
   min-height: 100vh;
   display: flex;
+  border-radius: 0.5rem;
 
   .left {
-    @include shadow-left;
-    width: 30rem;
+    @include shadow-right-menu;
+    width: 38rem;
     height: 100vh;
     padding-top: 2.25rem;
     padding-right: 1.5rem;
@@ -126,8 +128,8 @@ onMounted(async () => {
       gap: 1.5rem;
       .picture {
         @include shadow;
-        width: 19.75rem;
-        height: 27.75rem;
+        width: 18.75rem;
+        height: 26.75rem;
         object-fit: cover;
         border-radius: 0.5rem;
       }
@@ -157,10 +159,10 @@ onMounted(async () => {
         padding-right: 0.5rem;
       }
       .dividerDrop {
-        opacity: 0.6;
+        opacity: 0.4;
         margin-top: 2.25rem;
         flex: 1;
-        border: 1px dashed;
+        border: 0.75px dashed;
         position: relative;
         top: -10px;
       }

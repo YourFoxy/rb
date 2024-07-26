@@ -30,6 +30,12 @@
 // @mixin shadow-bottom {
 //   box-shadow: 0px -10px 12px rgb(0, 0, 0, 0.15);
 // }
+@mixin header-shadow {
+  box-shadow: 0px 4px 14px rgb(0, 0, 0, 0.25);
+}
+@mixin body-shadow {
+  box-shadow: 0px 2px 14px rgb(0, 0, 0, 0.25);
+}
 @mixin shadow {
   box-shadow: 0px 0px 12px rgb(140, 140, 140, 0.25);
 }
@@ -39,6 +45,14 @@
 @mixin shadow-right {
   box-shadow: -10px 0px 12px rgb(140, 140, 140, 0.25);
 }
+
+@mixin shadow-left-menu {
+  box-shadow: -6px 0px 12px rgb(140, 140, 140, 0.2);
+}
+@mixin shadow-right-menu {
+  box-shadow: 6px 0px 12px rgb(140, 140, 140, 0.2);
+}
+
 @mixin shadow-top {
   box-shadow: 0px 10px 12px rgb(140, 140, 140, 0.25);
 }

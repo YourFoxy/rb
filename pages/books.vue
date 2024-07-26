@@ -2,6 +2,12 @@
   <div :class="$style.container">
     <div :class="$style.left">
       <FilterСriteria
+        @click="resetCriteria()"
+        :criteria="resetCriteriaTitle"
+        :isSelected="activeCriteria === ''"
+      />
+
+      <FilterСriteria
         v-for="i in criterias"
         @click="setCriteria(i.id)"
         :key="i.id"
@@ -11,7 +17,13 @@
     </div>
     <div :class="$style.right">
       <div v-if="activeCriteria" :class="$style.title">
-        {{ (criterias.find((i) => i.id === activeCriteria), name) }}
+        {{ criterias.find((i) => i.id === activeCriteria).name }}
+      </div>
+      <div v-if="appStore.search != '' || null" :class="$style.search">
+        <div :class="$style.searchTitle">
+          Поиск по запросу: "{{ appStore.search }}"
+        </div>
+        <div @click="resetSearch()" :class="$style.resetButton">сбросить</div>
       </div>
 
       <!-- <NuxtLink to="/details"> -->
@@ -49,6 +61,10 @@ import MarkingCard from "~/components/blocks/MarkingBookCard.vue";
 import FilterСriteria from "~/components/blocks/FilterСriteria.vue";
 import CharacterNavigation from "~/components/blocks/CharacterNavigation.vue";
 import Repository from "~/repository/index.js";
+import { useAppStore } from "~/stores/appStore";
+const appStore = useAppStore();
+
+const resetCriteriaTitle = "Показать все результаты";
 
 const i1 = ref(0);
 const s = ref(0);
@@ -62,7 +78,20 @@ const activeCriteria = ref("");
 const title = ref("");
 
 const setCriteria = (id) => {
+  resetSearch();
   activeCriteria.value = id;
+};
+
+const resetSearch = () => {
+  const value = "";
+  document.getElementById("search").value = "";
+  appStore.setSearch({
+    value,
+  });
+};
+
+const resetCriteria = () => {
+  activeCriteria.value = "";
 };
 
 const filteredCriterias = computed(() => {
@@ -81,7 +110,12 @@ const filteredBooks = computed(() => {
   const resp = [];
   if (activeCriteria.value) {
     books.value.forEach((i) => {
-      if (i.criterion && i.criterion.id == activeCriteria.value && !i.series) {
+      if (
+        i.criterion &&
+        i.criterion.id == activeCriteria.value &&
+        !i.series &&
+        i.name.toLowerCase().includes(appStore.search)
+      ) {
         resp.push(i);
       } else if (i.books) {
         let isPushed = false;
@@ -89,7 +123,8 @@ const filteredBooks = computed(() => {
           if (
             j.criterion &&
             j.criterion.id == activeCriteria.value &&
-            !isPushed
+            !isPushed &&
+            i.name.toLowerCase().includes(appStore.search)
           ) {
             resp.push(i);
             isPushed = true;
@@ -99,10 +134,10 @@ const filteredBooks = computed(() => {
     });
   } else {
     books.value.forEach((i) => {
-      if (i.books) {
+      if (i.books && i.name.toLowerCase().includes(appStore.search)) {
         resp.push(i);
       } else {
-        if (!i.series) {
+        if (!i.series && i.name.toLowerCase().includes(appStore.search)) {
           resp.push(i);
         }
       }
@@ -176,6 +211,8 @@ onMounted(async () => {
 <style lang="scss" module>
 .container {
   @include container;
+  @include body-shadow;
+  border-radius: 0.5rem;
   min-height: 100vh;
   display: flex;
 
@@ -187,17 +224,32 @@ onMounted(async () => {
     overflow: hidden;
     top: 0px;
     overflow-y: scroll;
-    border-right: 2px solid #cececc;
+    // border-right: 2px solid #cececc;
   }
   .right {
-    // @include shadow-right;
+    @include shadow-left-menu;
     width: 100%;
     min-height: 100vh;
     padding: 2.25rem 0;
     padding-left: 1.5rem;
+    .search {
+      margin-bottom: 3rem;
+      .searchTitle {
+        @include H4;
+        margin-bottom: 0.5rem;
+      }
+      .resetButton {
+        opacity: 0.7;
+        cursor: pointer;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+
     .title {
-      @include Subtitle-bold;
-      margin-bottom: 2rem;
+      @include H3;
+      margin-bottom: 1rem;
     }
     .markingCard {
       margin-right: 0.5rem;

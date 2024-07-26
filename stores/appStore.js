@@ -9,13 +9,23 @@ export const useAppStore = defineStore("appStore", {
       formData: null,
       formDataSeries: null,
       formDataProv: null,
+      formDataSearch: null,
       services: [],
       isSeriesModalOpen: false,
       isProvModalOpen: false,
+      search: "",
     };
   },
   getters: {},
   actions: {
+    setSearch({ value, data }) {
+      this.search = value;
+      if (data && this.search != null) {
+        this.formDataSearch = data;
+      } else {
+        this.formDataSearch = null;
+      }
+    },
     setIsModalOpen({ value, data }) {
       this.isModalOpen = value;
       if (data && this.isModalOpen) {

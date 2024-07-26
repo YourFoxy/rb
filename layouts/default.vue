@@ -56,8 +56,10 @@ const scrolling = (e) => {
   background-color: $dark-green;
 
   .content {
+    // @include body-shadow;
     flex: 1 1 auto;
     width: 100%;
+    border-radius: 0.5rem;
     // height: ;
     // background-color: $dark-green;
     // background: linear-gradient(

@@ -81,20 +81,32 @@
           </div>
         </Transition>
       </NuxtLink>
+      <Search v-if="showSearch()" :class="$style.search" />
     </div>
   </div>
 </template>
 
 <script setup>
 import Icon from "~/components/common/Icon.vue";
+import Search from "~/components/blocks/Search.vue";
+
 import { ref, onMounted } from "vue";
 import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
+const route = useRoute();
+
+const regexSearch = /.+(details)+.{3,}$/gi;
 
 const setModal = (value) => {
   appStore.setactiveSection({
     value,
   });
+};
+
+const showSearch = () => {
+  return (
+    appStore.activeSection != 3 && regexSearch.exec(route.fullPath) === null
+  );
 };
 
 const setLibModal = (value) => {
@@ -114,17 +126,18 @@ const setActive = (value) => {
 <style lang="scss" module>
 .header {
   @include container;
-  // @include shadow;
+  @include header-shadow;
   width: 100%;
   height: 4.25rem;
   background-color: $dark-green;
   display: flex;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid $disabled;
+
   justify-content: space-between;
-  border-radius: 1rem 1rem 0 0;
+  border-radius: 0.5rem;
   margin-top: 1rem;
+  margin-bottom: 1rem;
   @include laptop {
     margin-top: 0;
     border-radius: 0;
@@ -158,7 +171,10 @@ const setActive = (value) => {
   }
   .right {
     display: flex;
-
+    .search {
+      align-self: center;
+      margin-left: 1rem;
+    }
     .manual {
       @include LargTextBold;
       display: flex;

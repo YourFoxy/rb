@@ -53,10 +53,13 @@
 <style lang="scss" module>
 .body {
   @include container;
+  @include body-shadow;
   width: 100%;
   min-height: 100vh;
+  border-radius: 0.5rem;
   // height: 100vh;
-  margin-top: 1rem;
+  padding-top: 1.5rem;
+
   .title {
     @include H2;
     margin-bottom: 1.5rem;
