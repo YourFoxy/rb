@@ -292,12 +292,14 @@ onMounted(async () => {
   }
   .characterNavigation {
     position: sticky;
-    width: 1.5rem;
-    top: 13rem;
+    width: 4rem;
+    top: -24rem;
 
     height: 100vh;
     //   right: 19.5rem;
+    margin-top: -24rem;
     text-align: center;
+    align-content: center;
   }
 }
 </style>

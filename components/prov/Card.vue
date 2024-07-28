@@ -1,10 +1,6 @@
 <template>
   <div @click="setProvModal(true)" :class="$style.container">
     <img :class="$style.img" :src="librarie.photo" alt="" />
-    <div :class="$style.title">
-      {{ librarie.name }}
-    </div>
-    <div v-if="appStore.isProvModalOpen">ddd</div>
   </div>
   <ProvModal
     v-if="appStore.isProvModalOpen"

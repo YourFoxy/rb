@@ -47,6 +47,9 @@ const props = defineProps({
 
 const openPage = (id) => {
   router.push({ path: "details", query: { id: id } });
+  appStore.setIsProvModalOpen({
+    value: false,
+  });
 };
 
 const cards = ref([]);
@@ -55,7 +58,6 @@ onMounted(async () => {
   const { value, error } = await Repository.Books.getProvenentions();
   const prov = value.find((i) => i.id == props.provenention.id);
   cards.value = prov.books;
-  console.log(value);
 });
 
 // const filteredBooks = computed(() => {

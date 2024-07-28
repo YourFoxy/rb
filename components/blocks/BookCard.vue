@@ -5,7 +5,10 @@
       <div :class="$style.left"><div :class="$style.leftShadow"></div></div>
       <div @click="openBook()" :class="$style.content">
         <div :class="$style.imgBox">
-          <img :class="$style.picture" :src="book.main_photo || book.photo" />
+          <img
+            :class="$style.picture"
+            :src="book.main_photo || book.photo || noPhoto"
+          />
 
           <div :class="$style.mask" v-if="isMultivolume">
             <div :class="$style.multivolume">Многотомник</div>
@@ -24,6 +27,7 @@
 
 <script setup>
 import { useAppStore } from "~/stores/appStore";
+const noPhoto = "/images/noPhoto.png";
 const appStore = useAppStore();
 const route = useRoute();
 const router = useRouter();
@@ -70,6 +74,7 @@ const openBook = () => {
       .imgBox {
         .picture {
           object-fit: cover;
+          object-position: center;
           height: 14.5rem;
           width: 10.25rem;
           border-radius: 0.25rem 0 0 0.25rem;

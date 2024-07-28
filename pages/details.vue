@@ -1,27 +1,47 @@
 <template>
   <div :class="$style.body">
     <div :class="$style.left">
-      <img :class="$style.picture" :src="book.main_photo" />
-      <div>
-        <div v-if="copies.length" :class="$style.subtitle">Экземпляры:</div>
-        <div :class="$style.biblioCards">
-          <LibCard
+      <img :class="$style.picture" :src="book.main_photo || noPhoto" />
+
+      <!-- <div v-if="copies.length" :class="$style.subtitle">Экземпляры:</div> -->
+      <div :class="$style.biblioButtons">
+        <div
+          :class="$style.button"
+          v-for="(i, index) in copies"
+          :key="i.id"
+          @click="router.push({ path: 'details', query: { id: i.id } })"
+        >
+          Экземпляр {{ index + 1 }}
+        </div>
+        <!-- <LibCard
             :class="$style.card"
             v-for="i in copies"
             :key="i.id"
             :librarie="i"
             @click="router.push({ path: 'details', query: { id: i.id } })"
-          />
+          /> -->
+      </div>
+
+      <div :class="$style.biblioButtons">
+        <div
+          :class="$style.button"
+          v-for="j in otherBooks"
+          :key="j.id"
+          @click="router.push({ path: 'details', query: { id: j.id } })"
+        >
+          {{ getTom(j.name) }}
         </div>
       </div>
     </div>
+
     <div :class="$style.right">
       <div v-if="book.photos" :class="$style.gallery">
         <img
+          @click="setImgModal(true, photo.photo)"
           v-for="photo in book.photos"
           :key="photo"
           :class="$style.picture"
-          :src="photo.photo"
+          :src="photo.photo || noPhoto"
         />
       </div>
       <div :class="$style.title" v-html="book.name"></div>
@@ -83,12 +103,27 @@ import ProvCard from "~/components/prov/Card.vue";
 
 import Repository from "~/repository/index.js";
 import { useAppStore } from "~/stores/appStore";
+
+const noPhoto = "/images/noPhoto.png";
 const appStore = useAppStore();
 
 const route = useRoute();
 const router = useRouter();
 const book = ref({});
 const copies = ref([]);
+
+const regex = new RegExp("\\Т.\+[0-9]");
+
+const getTom = (tom) => {
+  return tom.match(regex)?.[0].replace("Т.", "Том ") ?? "Том";
+};
+
+const setImgModal = (value, img) => {
+  appStore.setImage({
+    value,
+    img,
+  });
+};
 
 const showProvenentions = () => {
   if (book.value.provenentions != "") {
@@ -171,6 +206,23 @@ watch(
       height: 36.25rem;
       object-fit: cover;
       border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    .biblioButtons {
+      display: flex;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      .button {
+        @include LargTextBold;
+        cursor: pointer;
+        opacity: 0.6;
+        &:hover {
+          opacity: 1;
+        }
+      }
     }
   }
 
@@ -188,6 +240,7 @@ watch(
         height: 26.75rem;
         object-fit: cover;
         border-radius: 0.5rem;
+        cursor: pointer;
       }
     }
     .title {

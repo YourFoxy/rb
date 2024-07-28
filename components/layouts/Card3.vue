@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-const noPhoto = ref("~/public/images/noPhoto.png");
+const noPhoto = "/images/noPhoto.png";
 const props = defineProps({
   card: {
     type: Object,

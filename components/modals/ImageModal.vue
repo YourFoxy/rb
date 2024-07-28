@@ -2,29 +2,11 @@
   <div :class="$style.popup">
     <div :class="$style.overlay" @click="emits('close-modal', false)"></div>
     <div :class="$style.content" @click.stop>
-      <div :class="$style.close" @click.stop="emits('close-modal', false)">
+      <div :class="$style.close" @click.stop="emits('close-img-modal', false)">
         <Icon icon="close" is-pointer size="close" />
       </div>
       <div :class="$style.body">
-        <div :class="$style.header">
-          <div
-            v-for="(typ, index) in librariesTypes"
-            :key="typ.id"
-            @click="setActive(index)"
-            :class="[$style.button, { [$style.active]: index === activeType }]"
-          >
-            {{ typ.name }}
-          </div>
-        </div>
-        <div @click="setLibModal(1)" :class="$style.Cards">
-          <NuxtLink
-            :to="{ path: 'libraries', query: { id: librarie.id } }"
-            v-for="librarie in filteredLibraries"
-            :key="librarie.id"
-          >
-            <Card :librarie="librarie" :class="$style.card" />
-          </NuxtLink>
-        </div>
+        <div><img :src="appStore.image" alt="" /></div>
 
         <slot></slot>
       </div>
@@ -35,79 +17,11 @@
 <script setup>
 import Icon from "~/components/common/Icon.vue";
 import Card from "~/components/lib/Card.vue";
-const emits = defineEmits(["close-modal"]);
+const emits = defineEmits(["close-img-modal"]);
 import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
-import Repository from "~/repository/index.js";
 
 const activeType = ref(0);
-const libraries = ref([]);
-const librariesTypes = ref([]);
-const books = ref([]);
-const series = ref([]);
-
-const filteredLibraries = computed(() => {
-  const type = librariesTypes.value[activeType.value];
-  return libraries.value.filter((i) => i.type.id == type.id);
-});
-
-const setActive = (value) => {
-  activeType.value = value;
-};
-
-const setLibModal = (value) => {
-  emits("close-modal", false);
-  appStore.setactiveSection({
-    value,
-  });
-};
-
-const getLibraries = async () => {
-  const { value, error } = await Repository.Books.getLibraries();
-  libraries.value = value;
-};
-const getLibrariesTypes = async () => {
-  const { value, error } = await Repository.Books.getLibrariesTypes();
-  librariesTypes.value = value;
-};
-
-
-const filteredBooks = computed(() => {
-  const resp = [];
-
-  return resp;
-});
-
-const setSeries = async () => {
-  const { value, error } = await Repository.Books.getSeries();
-  series.value = value;
-};
-
-const setBooks = async () => {
-  const { value, error } = await Repository.Books.getBooks();
-  await setSeries();
-
-  books.value = value.results;
-  //noSeriesBooks.value = value.results.filter((i) => !i.series);
-
-  books.value = books.value.concat(series.value);
-
-  books.value = books.value.sort((a, b) => {
-    if (a.name.toLowerCase() < b.name.toLowerCase()) {
-      return -1;
-    }
-    if (a.name.toLowerCase() > b.name.toLowerCase()) {
-      return 1;
-    }
-    return 0;
-  });
-};
-
-onMounted(async () => {
-  await getLibrariesTypes();
-  await getLibraries();
-  await setBooks();
-});
 </script>
 
 <style lang="scss" module>

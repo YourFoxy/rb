@@ -11,6 +11,11 @@
       @close-modal="(value) => setLibModal(value)"
     >
     </CommonModal>
+    <ImageModal
+      v-if="appStore.isImageModalOpen"
+      @close-modal="(value) => setImgModal(value, '')"
+    >
+    </ImageModal>
   </main>
 </template>
 
@@ -18,6 +23,8 @@
 import Header from "~/components/layouts/Header.vue";
 import { useAppStore } from "~/stores/appStore";
 import CommonModal from "~/components/modals/CommonModal.vue";
+import ImageModal from "~/components/modals/ImageModal.vue";
+
 const route = useRoute();
 const appStore = useAppStore();
 
@@ -27,6 +34,12 @@ const showHeader = () => {
 const setLibModal = (value) => {
   appStore.setIsModalOpen({
     value,
+  });
+};
+const setImgModal = (value, img) => {
+  appStore.setImage({
+    value,
+    img,
   });
 };
 const setProvModal = (value) => {

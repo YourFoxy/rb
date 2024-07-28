@@ -10,14 +10,26 @@ export const useAppStore = defineStore("appStore", {
       formDataSeries: null,
       formDataProv: null,
       formDataSearch: null,
+      formDataImage: null,
       services: [],
       isSeriesModalOpen: false,
       isProvModalOpen: false,
+      isImageModalOpen: false,
       search: "",
+      image: "",
     };
   },
   getters: {},
   actions: {
+    setImage({ value, img, data }) {
+      this.image = img;
+      this.isImageModalOpen = value;
+      if (data && this.search != null) {
+        this.formDataImage = data;
+      } else {
+        this.formDataImage = null;
+      }
+    },
     setSearch({ value, data }) {
       this.search = value;
       if (data && this.search != null) {
