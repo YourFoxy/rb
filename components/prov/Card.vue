@@ -9,6 +9,7 @@
   <ProvModal
     v-if="appStore.isProvModalOpen"
     @close-prov-modal="(value) => setProvModal(value)"
+    :provenention="chosenLibrarie"
   >
   </ProvModal>
 </template>
@@ -17,13 +18,17 @@
 import { useAppStore } from "~/stores/appStore";
 import ProvModal from "~/components/modals/ProvModal.vue";
 const appStore = useAppStore();
-defineProps({
+const props = defineProps({
   librarie: {
     type: Object,
     default: () => {},
   },
 });
+
+const chosenLibrarie = ref(null);
+
 const setProvModal = (value) => {
+  chosenLibrarie.value = props.librarie;
   appStore.setIsProvModalOpen({
     value,
   });

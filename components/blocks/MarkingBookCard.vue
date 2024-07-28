@@ -9,7 +9,11 @@
 
       <div :class="$style.divider"></div>
     </div>
-    <Card :isMultivolume="isMultivolume" :book="book" :activeCriteria="activeCriteria" />
+    <Card
+      :isMultivolume="isMultivolume"
+      :book="book"
+      :activeCriteria="activeCriteria"
+    />
   </div>
 </template>
 
@@ -17,8 +21,8 @@
 import Card from "~/components/blocks/BookCard.vue";
 defineProps({
   isMultivolume: {
-    type: Boolean,
-    default: false,
+    type: Array,
+    default: () => [],
   },
   character: {
     type: String,
@@ -34,7 +38,7 @@ defineProps({
     default: () => {},
   },
   activeCriteria: {
-    type: Number,
+    type: String,
   },
 });
 </script>

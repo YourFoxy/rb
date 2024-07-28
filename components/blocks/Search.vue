@@ -31,7 +31,6 @@ onMounted(async () => {
   //получение книг с сервера
   window.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
-      console.log("ddd");
       setSearch();
     }
   });

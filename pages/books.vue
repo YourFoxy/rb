@@ -44,8 +44,9 @@
             : false
         "
         :id="character.name[0].toUpperCase()"
-        :isMultivolume="character.books"
+        :isMultivolume="character.series"
         :activeCriteria="activeCriteria"
+        @click="setChosen(character)"
       />
       <!-- </NuxtLink> -->
     </div>
@@ -54,6 +55,13 @@
       :characters="characters"
       :activeCharacter="activeCharacter"
     />
+    <SeriesModal
+      v-if="appStore.isSeriesModalOpen"
+      @close-series-modal="(value) => setSeriesModal(value)"
+      :book="chosenBook"
+      :activeCriteria="activeCriteria"
+    >
+    </SeriesModal>
   </div>
 </template>
 <script setup>
@@ -61,8 +69,11 @@ import MarkingCard from "~/components/blocks/MarkingBookCard.vue";
 import FilterСriteria from "~/components/blocks/FilterСriteria.vue";
 import CharacterNavigation from "~/components/blocks/CharacterNavigation.vue";
 import Repository from "~/repository/index.js";
+
+import SeriesModal from "~/components/modals/SeriesModal.vue";
 import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
+const route = useRoute();
 
 const resetCriteriaTitle = "Показать все результаты";
 
@@ -74,12 +85,28 @@ const books = ref([]);
 const criterias = ref([]);
 const series = ref([]);
 const activeCriteria = ref("");
+const chosenBook = ref(null);
+
+const setChosen = (book) => {
+  if (book.books) {
+    chosenBook.value = book;
+    appStore.setIsSeriesModalOpen({
+      value: true,
+    });
+  }
+};
 
 const title = ref("");
 
 const setCriteria = (id) => {
   resetSearch();
   activeCriteria.value = id;
+};
+
+const setSeriesModal = (value) => {
+  appStore.setIsSeriesModalOpen({
+    value,
+  });
 };
 
 const resetSearch = () => {
@@ -148,9 +175,6 @@ const filteredBooks = computed(() => {
     return element.name[0].toUpperCase();
   });
   activeCharacter.value = characters.value[0];
-
-  console.log(resp);
-
   return resp;
 });
 
@@ -161,7 +185,18 @@ const setBooks = async () => {
   const { value, error } = await Repository.Books.getBooks();
   await setSeries();
 
-  books.value = value.results;
+  if (route.name === "libraries") {
+    value.results.forEach((i) => {
+      i.libraries.forEach((j) => {
+        if (j.id == route.query.id) {
+          books.value.push(i);
+        }
+      });
+    });
+  } else {
+    books.value = value.results;
+  }
+
   //noSeriesBooks.value = value.results.filter((i) => !i.series);
 
   books.value = books.value.concat(series.value);

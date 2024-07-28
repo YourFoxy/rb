@@ -2,6 +2,18 @@
   <div :class="$style.body">
     <div :class="$style.left">
       <img :class="$style.picture" :src="book.main_photo" />
+      <div>
+        <div v-if="copies.length" :class="$style.subtitle">Экземпляры:</div>
+        <div :class="$style.biblioCards">
+          <LibCard
+            :class="$style.card"
+            v-for="i in copies"
+            :key="i.id"
+            :librarie="i"
+            @click="router.push({ path: 'details', query: { id: i.id } })"
+          />
+        </div>
+      </div>
     </div>
     <div :class="$style.right">
       <div v-if="book.photos" :class="$style.gallery">
@@ -48,6 +60,7 @@
           v-for="i in book.libraries"
           :key="i.id"
           :librarie="i"
+          @click="router.push({ path: 'libraries', query: { id: i.id } })"
         />
       </div>
       <div :class="$style.subtitle" v-if="showProvenentions()">
@@ -73,7 +86,9 @@ import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
 
 const route = useRoute();
+const router = useRouter();
 const book = ref({});
+const copies = ref([]);
 
 const showProvenentions = () => {
   if (book.value.provenentions != "") {
@@ -83,11 +98,52 @@ const showProvenentions = () => {
   }
 };
 
+const otherBooks = ref([]);
+
+const setSeries = async () => {
+  const { value, error } = await Repository.Books.getSeries();
+  otherBooks.value = value.find((i) => i.id == book.value.series.id).books;
+  otherBooks.value = otherBooks.value.filter((i) => i.id != book.value.id);
+  console.log(otherBooks.value);
+};
+
+const setCopie = async (id) => {
+  const { value, error } = await Repository.Books.getBook(id);
+  copies.value.push(value);
+};
+
 onMounted(async () => {
   const { value, error } = await Repository.Books.getBook(route.query.id);
-  console.log(value);
   book.value = value;
+  if (book.value.series) {
+    await setSeries();
+  }
+  if (book.value.copies && book.value.copies.length) {
+    book.value.copies.forEach((i) => {
+      console.log(i);
+      setCopie(i);
+    });
+  }
 });
+
+watch(
+  () => route.query.id,
+  async (newValue) => {
+    const { value, error } = await Repository.Books.getBook(route.query.id);
+    book.value = value;
+    if (book.value.series) {
+      await setSeries();
+    }
+    if (book.value.copies && book.value.copies.length) {
+      copies.value = [];
+      book.value.copies.forEach((i) => {
+        setCopie(i);
+      });
+    } else {
+      copies.value = [];
+    }
+  }
+);
 </script>
 <style lang="scss" module>
 .body {
@@ -170,18 +226,6 @@ onMounted(async () => {
         padding-left: 0.5rem;
       }
     }
-    .subtitle {
-      @include Subtitle-bold;
-      opacity: 0.5;
-      margin-top: 2.25rem;
-    }
-    .biblioCards {
-      display: flex;
-      margin-top: 1rem;
-      .card {
-        margin-right: 1rem;
-      }
-    }
     .provenentions {
       display: flex;
       margin-top: 1rem;
@@ -191,6 +235,19 @@ onMounted(async () => {
         margin-right: 1rem;
       }
     }
+  }
+}
+.subtitle {
+  @include Subtitle-bold;
+  opacity: 0.5;
+  margin-top: 2.25rem;
+}
+.biblioCards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  .card {
+    margin-right: 1rem;
   }
 }
 </style>

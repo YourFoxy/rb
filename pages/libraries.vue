@@ -1,23 +1,16 @@
 <template>
   <div>
-    <div :class="$style.preview" class="scrollEl">
+    <div
+      v-if="librarie && librarie.id"
+      :class="$style.preview"
+      class="scrollEl"
+    >
       <div :class="$style.scroll">
-        <img :class="$style.img" src="~/public/images/01.jpg" alt="" />
+        <img :class="$style.img" :src="librarie.photo" alt="" />
         <div :class="$style.info">
-          <div :class="$style.title">Барановичский краеведческий музей</div>
+          <div :class="$style.title">{{ librarie.name }}</div>
           <div :class="$style.text">
-            Барановичский краеведческий музей - один из старейших в Брестской
-            области, размещается в исторической части города, в здании нач. ХХ
-            в. (ул. Советская, 72). В настоящее время музей является одним из
-            ведущих культурно-образовательных центров г. Барановичи. За многие
-            годы его работы разным поколениям барановичских музейщиков удалось
-            сформировать богатое музейное собрание, которое насчитывает более 45
-            тыс. единиц хранения. Жители и гости города могут посетить основную 
-            музейную экспозицию «Природа родного края. Город Барановичи.
-            Барановичский край от первобытнообщинного строя до середины ХХ в.».
-            Барановичский краеведческий музей располагает и выставочным залом
-            (пл. 140 м. кв., ул. Советская, 88), где постоянно организуются
-            различные временные экспозиции с проведением экскурсий.
+            {{ librarie.description }}
           </div>
         </div>
       </div>
@@ -28,6 +21,19 @@
 <script setup>
 import Books from "~/pages/books.vue";
 const appStore = useAppStore();
+import Repository from "~/repository/index.js";
+const route = useRoute();
+
+const librarie = ref({});
+
+const getLibraries = async () => {
+  const { value, error } = await Repository.Books.getLibraries();
+  librarie.value = value.find((i) => i.id == route.query.id);
+};
+
+onMounted(async () => {
+  await getLibraries();
+});
 
 // var previousPosition = ref(window.pageYOffset);
 

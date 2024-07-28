@@ -11,7 +11,7 @@
       >
         <Icon icon="close" is-pointer size="close" />
       </div>
-      <div :class="$style.body">
+      <div v-if="book" :class="$style.body">
         <div :class="$style.left">
           <img :class="$style.img" :src="book.photo" alt="" />
           <div :class="$style.title">
@@ -45,24 +45,36 @@ const router = useRouter();
 const props = defineProps({
   book: {
     type: Object,
-    default: () => {},
   },
   activeCriteria: {
-    type: Number,
+    type: String,
   },
+});
+
+const book = ref(props.book);
+
+watch(
+  () => props.book,
+  (newValue) => {
+    book.value = newValue;
+  }
+);
+
+onMounted(() => {
+  console.log(props);
 });
 
 const openPage = (id) => {
   router.push({ path: "details", query: { id: id } });
+  emits("close-series-modal", false);
 };
 
 const filteredBooks = computed(() => {
-  // if (props.book.books) {
-  //   return props.activeCriteria
-  //     ? props.book.books.filter((i) => i.criterion.id == props.activeCriteria)
-  //     : props.book.books;
-  // } else return [];
-  return props.book.books;
+  if (props.book.books) {
+    return props.activeCriteria
+      ? props.book.books.filter((i) => i.criterion.id == props.activeCriteria)
+      : props.book.books;
+  } else return [];
 });
 </script>
 
@@ -135,7 +147,7 @@ const filteredBooks = computed(() => {
       .left {
         @include shadow-left;
         max-height: 41.4rem;
-        max-width: 31rem;
+        min-width: 29rem;
         width: 100%;
         position: sticky;
         overflow: hidden;
@@ -161,14 +173,14 @@ const filteredBooks = computed(() => {
       .right {
         // @include shadow-right;
 
-        max-width: 100%;
+        width: 100%;
         max-height: 41.4rem;
         // overflow: hidden;
 
         overflow-y: scroll;
 
         .card {
-          margin-top: 1.5rem;
+          margin-bottom: 1.5rem;
 
           // padding: 0 2.5rem;
         }

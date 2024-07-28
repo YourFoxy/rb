@@ -18,7 +18,7 @@
         </div>
         <div @click="setLibModal(1)" :class="$style.Cards">
           <NuxtLink
-            to="/books1"
+            :to="{ path: 'libraries', query: { id: librarie.id } }"
             v-for="librarie in filteredLibraries"
             :key="librarie.id"
           >
@@ -47,7 +47,6 @@ const books = ref([]);
 
 const filteredLibraries = computed(() => {
   const type = librariesTypes.value[activeType.value];
-  console.log(librariesTypes.value);
   return libraries.value.filter((i) => i.type.id == type.id);
 });
 
@@ -69,7 +68,6 @@ const getLibraries = async () => {
 const getLibrariesTypes = async () => {
   const { value, error } = await Repository.Books.getLibrariesTypes();
   librariesTypes.value = value;
-  console.log(librariesTypes.value);
 };
 
 const openPage = (id) => {

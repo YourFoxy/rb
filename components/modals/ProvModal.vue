@@ -10,12 +10,12 @@
       </div>
       <div :class="$style.body">
         <div :class="$style.left">
-          <div :class="$style.title">book.name</div>
-          <div :class="$style.text">book.description</div>
+          <div :class="$style.title">{{ provenention.name }}</div>
+          <div :class="$style.text">{{ provenention.description }}</div>
         </div>
         <div :class="$style.right">
           <Card3
-            v-for="card in filteredBooks"
+            v-for="card in cards"
             @click="openPage(card.id)"
             :key="card.id"
             :card="card"
@@ -33,14 +33,30 @@ import Icon from "~/components/common/Icon.vue";
 import Card3 from "~/components/layouts/Card3.vue";
 const emits = defineEmits(["close-prov-modal"]);
 import { useAppStore } from "~/stores/appStore";
+import Repository from "~/repository/index.js";
 const appStore = useAppStore();
 const router = useRouter();
+
+const props = defineProps({
+  provenention: {
+    type: Object,
+  },
+});
 
 // const props = defineProps({});
 
 const openPage = (id) => {
   router.push({ path: "details", query: { id: id } });
 };
+
+const cards = ref([]);
+
+onMounted(async () => {
+  const { value, error } = await Repository.Books.getProvenentions();
+  const prov = value.find((i) => i.id == props.provenention.id);
+  cards.value = prov.books;
+  console.log(value);
+});
 
 // const filteredBooks = computed(() => {
 //   // if (props.book.books) {
