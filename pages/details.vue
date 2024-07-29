@@ -93,19 +93,26 @@
       </div>
       <div :class="$style.provenentions">
         <ProvCard
+          @click="setProvModal(true, i)"
           :class="$style.card"
           v-for="i in book.provenentions"
           :key="i.id"
           :librarie="i"
         />
       </div>
+      <ProvModal
+        v-if="appStore.isProvModalOpen"
+        @close-prov-modal="(value) => setProvModal(value, null)"
+        :provenention="chosenLibrarie"
+      >
+      </ProvModal>
     </div>
   </div>
 </template>
 <script setup>
 import LibCard from "~/components/lib/Card.vue";
 import ProvCard from "~/components/prov/Card.vue";
-
+import ProvModal from "~/components/modals/ProvModal.vue";
 import Repository from "~/repository/index.js";
 import { useAppStore } from "~/stores/appStore";
 
@@ -140,6 +147,19 @@ const showProvenentions = () => {
   } else {
     return false;
   }
+};
+
+const chosenLibrarie = ref(null);
+
+const setProvModal = (value, prov) => {
+  if (value) {
+    chosenLibrarie.value = prov;
+  } else {
+    chosenLibrarie.value = null;
+  }
+  appStore.setIsProvModalOpen({
+    value,
+  });
 };
 
 const otherBooks = ref([]);

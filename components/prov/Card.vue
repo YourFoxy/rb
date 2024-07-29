@@ -1,18 +1,11 @@
 <template>
-  <div @click="setProvModal(true)" :class="$style.container">
+  <div :class="$style.container">
     <img :class="$style.img" :src="librarie.photo" alt="" />
   </div>
-  <ProvModal
-    v-if="appStore.isProvModalOpen"
-    @close-prov-modal="(value) => setProvModal(value)"
-    :provenention="chosenLibrarie"
-  >
-  </ProvModal>
 </template>
 
 <script setup>
 import { useAppStore } from "~/stores/appStore";
-import ProvModal from "~/components/modals/ProvModal.vue";
 const appStore = useAppStore();
 const props = defineProps({
   librarie: {
@@ -21,14 +14,6 @@ const props = defineProps({
   },
 });
 
-const chosenLibrarie = ref(null);
-
-const setProvModal = (value) => {
-  chosenLibrarie.value = props.librarie;
-  appStore.setIsProvModalOpen({
-    value,
-  });
-};
 </script>
 
 <style lang="scss" module>

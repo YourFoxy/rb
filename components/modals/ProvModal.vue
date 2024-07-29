@@ -59,6 +59,8 @@ const openPage = (id) => {
   });
 };
 
+
+
 const cards = ref([]);
 
 onMounted(async () => {
