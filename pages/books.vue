@@ -224,6 +224,24 @@ const setCriterias = async () => {
 
 const setSeries = async () => {
   const { value, error } = await Repository.Books.getSeries();
+
+  if (route.name === "libraries") {
+    value.forEach((i) => {
+      let temp = false;
+      i.books.forEach((j) => {
+        if (!temp) {
+          j.libraries.forEach((k) => {
+            if (k.id == route.query.id && !temp) {
+              series.value.push(i);
+              temp = true;
+            }
+          });
+        }
+      });
+    });
+  } else {
+    series.value = value;
+  }
   series.value = value;
 };
 
@@ -242,6 +260,16 @@ onMounted(async () => {
     }
   });
 });
+
+watch(
+  () => route.query.id,
+  async (newValue) => {
+    books.value = [];
+    series.value = [];
+    await setBooks();
+    await setCriterias();
+  }
+);
 </script>
 <style lang="scss" module>
 .container {
