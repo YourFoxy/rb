@@ -154,7 +154,8 @@ const chosenLibrarie = ref(null);
 const setProvModal = (value, prov) => {
   if (value) {
     chosenLibrarie.value = prov;
-  } else {
+  }
+  else {
     chosenLibrarie.value = null;
   }
   appStore.setIsProvModalOpen({
@@ -168,7 +169,6 @@ const setSeries = async () => {
   const { value, error } = await Repository.Books.getSeries();
   otherBooks.value = value.find((i) => i.id == book.value.series.id).books;
   otherBooks.value = otherBooks.value.filter((i) => i.id != book.value.id);
-  console.log(otherBooks.value);
 };
 
 const setCopie = async (id) => {

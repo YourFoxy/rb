@@ -42,6 +42,8 @@ import Card3 from "~/components/layouts/Card3.vue";
 const emits = defineEmits(["close-series-modal"]);
 const router = useRouter();
 
+const route = useRoute();
+
 const props = defineProps({
   book: {
     type: Object,
@@ -70,11 +72,24 @@ const openPage = (id) => {
 };
 
 const filteredBooks = computed(() => {
-  if (props.book.books) {
-    return props.activeCriteria
-      ? props.book.books.filter((i) => i.criterion.id == props.activeCriteria)
-      : props.book.books;
-  } else return [];
+  let resp = [];
+  if (route.name === "libraries") {
+    props.book.books.forEach((i) => {
+      i.libraries.forEach((j) => {
+        if (j.id == route.query.id) {
+          resp.push(i);
+        }
+      });
+    });
+  } else {
+    resp = props.book.books;
+  }
+
+  resp = props.activeCriteria
+    ? resp.filter((i) => i.criterion.id == props.activeCriteria)
+    : resp;
+
+  return resp;
 });
 </script>
 

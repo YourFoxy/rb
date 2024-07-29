@@ -242,7 +242,6 @@ const setSeries = async () => {
   } else {
     series.value = value;
   }
-  series.value = value;
 };
 
 onMounted(async () => {
