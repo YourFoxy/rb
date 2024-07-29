@@ -1,14 +1,18 @@
 import ApiConnector from "../connector";
 
 class Books {
-  getBooks = async () => {
+  getBooks = async (page) => {
     const result = {
       value: false,
       error: null,
     };
 
+    const params = {
+      page: page
+    }
+
     try {
-      const response = await ApiConnector.connector.get(`/books/`);
+      const response = await ApiConnector.connector.get(`/books/`, { params });
       result.value = response.data;
     } catch (e) {
       result.error = true;

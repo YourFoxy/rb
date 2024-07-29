@@ -43,7 +43,7 @@ import Repository from "~/repository/index.js";
 const activeType = ref(0);
 const libraries = ref([]);
 const librariesTypes = ref([]);
-const books = ref([]);
+// const books = ref([]);
 const series = ref([]);
 
 const filteredLibraries = computed(() => {
@@ -71,42 +71,35 @@ const getLibrariesTypes = async () => {
   librariesTypes.value = value;
 };
 
-
-const filteredBooks = computed(() => {
-  const resp = [];
-
-  return resp;
-});
-
 const setSeries = async () => {
   const { value, error } = await Repository.Books.getSeries();
   series.value = value;
 };
 
-const setBooks = async () => {
-  const { value, error } = await Repository.Books.getBooks();
-  await setSeries();
+// const setBooks = async () => {
+//   const { value, error } = await Repository.Books.getBooks(1);
+//   await setSeries();
 
-  books.value = value.results;
-  //noSeriesBooks.value = value.results.filter((i) => !i.series);
+//   books.value = value.results;
+//   //noSeriesBooks.value = value.results.filter((i) => !i.series);
 
-  books.value = books.value.concat(series.value);
+//   books.value = books.value.concat(series.value);
 
-  books.value = books.value.sort((a, b) => {
-    if (a.name.toLowerCase() < b.name.toLowerCase()) {
-      return -1;
-    }
-    if (a.name.toLowerCase() > b.name.toLowerCase()) {
-      return 1;
-    }
-    return 0;
-  });
-};
+//   books.value = books.value.sort((a, b) => {
+//     if (a.name.toLowerCase() < b.name.toLowerCase()) {
+//       return -1;
+//     }
+//     if (a.name.toLowerCase() > b.name.toLowerCase()) {
+//       return 1;
+//     }
+//     return 0;
+//   });
+// };
 
 onMounted(async () => {
   await getLibrariesTypes();
   await getLibraries();
-  await setBooks();
+  //await setBooks();
 });
 </script>
 

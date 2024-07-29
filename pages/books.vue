@@ -48,6 +48,21 @@
         :activeCriteria="activeCriteria"
         @click="setChosen(character)"
       />
+      <div :class="$style.pagination">
+        <div
+          @click="page--"
+          :class="[$style.arrow, { [$style.disabled]: !prev }]"
+        >
+          <
+        </div>
+        <div :class="$style.count">{{ page }}</div>
+        <div
+          @click="page++"
+          :class="[$style.arrow, { [$style.disabled]: !next }]"
+        >
+          >
+        </div>
+      </div>
       <!-- </NuxtLink> -->
     </div>
     <CharacterNavigation
@@ -178,12 +193,19 @@ const filteredBooks = computed(() => {
   return resp;
 });
 
+const page = ref(1);
+const prev = ref(null);
+const next = ref(null);
+
 const characters = ref([]);
 const activeCharacter = ref("");
 
 const setBooks = async () => {
-  const { value, error } = await Repository.Books.getBooks();
+  const { value, error } = await Repository.Books.getBooks(page.value);
   await setSeries();
+
+  prev.value = value.prev;
+  next.value = value.next;
 
   if (route.name === "libraries") {
     value.results.forEach((i) => {
@@ -269,8 +291,44 @@ watch(
     await setCriterias();
   }
 );
+watch(
+  () => page.value,
+  async (newValue) => {
+    await setBooks();
+    await setCriterias();
+  }
+);
 </script>
 <style lang="scss" module>
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .count {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .arrow {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    &.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+}
 .container {
   @include container;
   @include body-shadow;
