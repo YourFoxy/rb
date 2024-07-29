@@ -13,7 +13,7 @@
       </div>
       <div v-if="book" :class="$style.body">
         <div :class="$style.left">
-          <img :class="$style.img" :src="book.photo" alt="" />
+          <!-- <img :class="$style.img" :src="book.photo" alt="" /> -->
           <div :class="$style.title">
             {{ book.name }}
           </div>

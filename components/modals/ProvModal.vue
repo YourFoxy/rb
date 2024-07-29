@@ -20,7 +20,7 @@
           <div :class="$style.text">{{ provenention.description }}</div>
         </div>
         <div :class="$style.right">
-          <Card3
+          <Card4
             v-for="card in cards"
             @click="openPage(card.id)"
             :key="card.id"
@@ -36,7 +36,7 @@
 
 <script setup>
 import Icon from "~/components/common/Icon.vue";
-import Card3 from "~/components/layouts/Card3.vue";
+import Card4 from "~/components/layouts/Card4.vue";
 const emits = defineEmits(["close-prov-modal"]);
 import { useAppStore } from "~/stores/appStore";
 import Repository from "~/repository/index.js";

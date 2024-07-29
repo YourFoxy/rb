@@ -59,7 +59,13 @@ const setLibModal = (value) => {
       text-shadow: 0px 0px 22px rgb(140, 140, 140, 0.85);
     }
     .subtitle {
-      @include H4;
+      font-family: "Montserrat", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-size: 1.2rem;
+      font-style: normal;
+      letter-spacing: 0.1rem;
+      color: $light;
       padding-top: 1rem;
     }
   }
