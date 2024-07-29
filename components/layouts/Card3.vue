@@ -15,8 +15,10 @@ const props = defineProps({
   },
 });
 
-// const regex = new RegExp("\\ Т.+[0-9] ");
-const regex = new RegExp("\\Т.\+[0-9]");
+const regex = new RegExp("\\Т. +\[0-9]+");
+
+// console.log(regex2.exec(props.card.name));
+console.log(props.card.name.match(regex));
 const name = props.card.name.match(regex)?.[0].replace("Т.", "Том ") ?? "Том";
 </script>
 

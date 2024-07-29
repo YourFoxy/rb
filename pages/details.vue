@@ -1,7 +1,12 @@
 <template>
   <div :class="$style.body">
     <div :class="$style.left">
-      <img :class="$style.picture" :src="book.main_photo || noPhoto" />
+      <div :class="$style.back" @click="back()">назад</div>
+      <img
+        @click="setImgModal(true, book.main_photo || noPhoto)"
+        :class="$style.picture"
+        :src="book.main_photo || noPhoto"
+      />
 
       <!-- <div v-if="copies.length" :class="$style.subtitle">Экземпляры:</div> -->
       <div :class="$style.biblioButtons">
@@ -112,7 +117,11 @@ const router = useRouter();
 const book = ref({});
 const copies = ref([]);
 
-const regex = new RegExp("\\Т.\+[0-9]");
+const regex = new RegExp("\\Т. +\[0-9]+");
+
+const back = () => {
+  router.go(-1);
+};
 
 const getTom = (tom) => {
   return tom.match(regex)?.[0].replace("Т.", "Том ") ?? "Том";
@@ -195,11 +204,19 @@ watch(
     height: 100vh;
     padding-top: 2.25rem;
     padding-right: 1.5rem;
-    padding: 2.25rem 1.25rem 2.25rem 0;
+    padding: 0 1.25rem 2.25rem 0;
     position: sticky;
     top: 0px;
     overflow-y: scroll;
-
+    .back {
+      @include LargTextBold;
+      padding: 0.5rem 0.25rem;
+      cursor: pointer;
+      opacity: 0.6;
+      &:hover {
+        opacity: 1;
+      }
+    }
     .picture {
       @include shadow;
       width: 100%;

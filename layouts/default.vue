@@ -13,7 +13,7 @@
     </CommonModal>
     <ImageModal
       v-if="appStore.isImageModalOpen"
-      @close-modal="(value) => setImgModal(value, '')"
+      @close-img-modal="(value) => setImgModal(value, '')"
     >
     </ImageModal>
   </main>

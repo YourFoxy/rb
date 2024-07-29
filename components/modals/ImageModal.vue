@@ -1,12 +1,12 @@
 <template>
   <div :class="$style.popup">
-    <div :class="$style.overlay" @click="emits('close-modal', false)"></div>
+    <div :class="$style.overlay" @click="emits('close-img-modal', false)"></div>
     <div :class="$style.content" @click.stop>
       <div :class="$style.close" @click.stop="emits('close-img-modal', false)">
         <Icon icon="close" is-pointer size="close" />
       </div>
       <div :class="$style.body">
-        <div><img :src="appStore.image" alt="" /></div>
+        <img :class="$style.image" :src="appStore.image" alt="" />
 
         <slot></slot>
       </div>
@@ -86,43 +86,20 @@ const activeType = ref(0);
     }
     .body {
       background: $dark-green;
-      min-height: 41.4rem;
+      min-height: Calc(100vh * 0.7);
+      min-width: Calc(100vh * 0.8);
+      text-align: center;
+      align-content: center;
       border-radius: 0.75rem;
-      .header {
-        @include shadow-top;
-        height: 3rem;
-        width: 100%;
-        background: $dark-green;
-        border-radius: 0.75rem 0.75rem 0 0;
-        padding: 1rem 1.5rem;
-        display: flex;
-        .button {
-          @include LargTextBold;
-          text-transform: uppercase;
-          padding-left: 0.75rem;
-          font-weight: 700;
-          color: $black-opacity;
-          cursor: pointer;
-          &:hover {
-            color: $light;
-            opacity: 0.8;
-          }
-        }
-        .active {
-          color: $light;
-        }
-      }
-      .Cards {
-        overflow: auto;
-        justify-content: center;
-        padding: 1.5rem;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1.3rem;
-        max-height: 38.4rem;
-        .card {
-          cursor: pointer;
-        }
+      .image {
+        max-height: Calc(100vh * 0.7 - 2rem);
+        align-content: center;
+        align-items: center;
+        align-self: center;
+        max-width: Calc(100vh * 0.8 - 2rem);
+        object-fit: contain;
+        border-radius: 0.25rem;
+        margin: 1rem;
       }
     }
   }

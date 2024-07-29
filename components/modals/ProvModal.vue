@@ -10,6 +10,12 @@
       </div>
       <div :class="$style.body">
         <div :class="$style.left">
+          <img
+            :class="$style.photo"
+            :src="provenention.photo || noPhoto"
+            alt=""
+          />
+
           <div :class="$style.title">{{ provenention.name }}</div>
           <div :class="$style.text">{{ provenention.description }}</div>
         </div>
@@ -36,6 +42,7 @@ import { useAppStore } from "~/stores/appStore";
 import Repository from "~/repository/index.js";
 const appStore = useAppStore();
 const router = useRouter();
+const noPhoto = "/images/noPhoto.png";
 
 const props = defineProps({
   provenention: {
@@ -146,6 +153,16 @@ onMounted(async () => {
         top: 0px;
         overflow-y: scroll;
         padding: 1.5rem;
+        text-align: center;
+        .photo {
+          max-width: 100%;
+          margin-bottom: 1rem;
+          align-items: center;
+          align-content: center;
+          align-items: center;
+          align-self: center;
+          border-radius: 0.25rem;
+        }
         .title {
           @include LargTextBold;
           margin-bottom: 1rem;
