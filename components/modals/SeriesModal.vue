@@ -180,10 +180,6 @@ const filteredBooks = computed(() => {
           margin-bottom: 1rem;
           text-align: justify;
         }
-        .text {
-          @include LargText;
-          text-align: justify;
-        }
       }
       .right {
         // @include shadow-right;

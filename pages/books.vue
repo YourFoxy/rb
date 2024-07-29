@@ -323,10 +323,11 @@ watch(
     top: -24rem;
 
     height: 100vh;
+    top: 10rem;
     //   right: 19.5rem;
-    margin-top: -24rem;
+    // margin-top: -4rem;
     text-align: center;
-    align-content: center;
+    // align-content: center;
   }
 }
 </style>

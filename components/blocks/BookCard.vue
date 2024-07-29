@@ -16,7 +16,7 @@
         </div>
         <div :class="$style.text">
           <div :class="$style.title" v-html="book.name"></div>
-          <div :class="$style.description" v-html="book.description"></div>
+          <!-- <div :class="$style.description" v-html="book.description"></div> -->
         </div>
       </div>
       <div :class="$style.right"><div :class="$style.rightShadow"></div></div>
@@ -105,7 +105,7 @@ const openBook = () => {
         overflow: hidden;
         text-align: justify;
         .title {
-          @include LargTextBold;
+          @include Subtitle-bold;
           margin-bottom: 0rem;
         }
       }

@@ -138,6 +138,7 @@ const setActive = (value) => {
   border-radius: 0.5rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
+
   @include laptop {
     margin-top: 0;
     border-radius: 0;

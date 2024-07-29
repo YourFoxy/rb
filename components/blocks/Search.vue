@@ -54,6 +54,7 @@ onMounted(async () => {
   .button {
     align-content: center;
     opacity: 0.6;
+    cursor: pointer;
   }
 }
 </style>

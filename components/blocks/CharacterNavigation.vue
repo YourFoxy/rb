@@ -53,9 +53,9 @@ const props = defineProps({
 }
 .wrap {
   margin-top: 0.5rem;
-  display: flex;
+  //display: flex;
   gap: 0.25rem;
-  flex-wrap: wrap;
+  //  flex-wrap: wrap;
   justify-content: center;
 
   .character {
