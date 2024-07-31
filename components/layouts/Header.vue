@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.header">
+  <div :class="$style.header" class="header">
     <div :class="$style.left">
       <NuxtLink to="/"
         ><Icon :class="$style.icon" icon="logo" is-pointer size="logo" />
@@ -98,6 +98,14 @@ const route = useRoute();
 const regexSearch = /.+(details)+.{3,}$/gi;
 
 const setModal = (value) => {
+  const value2 = 0;
+  appStore.setBookPosition({
+    value2,
+  });
+  const value1 = "";
+  appStore.setActiveCriteria({
+    value1,
+  });
   appStore.setactiveSection({
     value,
   });

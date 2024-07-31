@@ -31,6 +31,14 @@ import { useAppStore } from "~/stores/appStore";
 const appStore = useAppStore();
 
 const setModal = (value) => {
+  const value2 = 0;
+  appStore.setBookPosition({
+    value2,
+  });
+  const value1 = "";
+  appStore.setActiveCriteria({
+    value1,
+  });
   appStore.setactiveSection({
     value,
   });
@@ -99,7 +107,7 @@ const setLibModal = (value) => {
     }
   }
   .background {
-    background-image: url("~/public/images/pre.png ");
+    background-image: url("~/public/images/prew.png");
     background-size: cover;
     width: 100%;
     background-position: center left;

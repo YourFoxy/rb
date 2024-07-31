@@ -56,6 +56,14 @@ const setActive = (value) => {
 };
 
 const setLibModal = (value) => {
+  const value2 = 0;
+  appStore.setBookPosition({
+    value2,
+  });
+  const value1 = "";
+  appStore.setActiveCriteria({
+    value1,
+  });
   emits("close-modal", false);
   appStore.setactiveSection({
     value,

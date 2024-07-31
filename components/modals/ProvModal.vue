@@ -9,17 +9,23 @@
         <Icon icon="close" is-pointer size="close" />
       </div>
       <div :class="$style.body">
-        <div :class="$style.left">
-          <img
-            :class="$style.photo"
-            :src="provenention.photo || noPhoto"
-            alt=""
-          />
+        <!-- <div :class="$style.left"> -->
+        <img
+          :class="$style.photo"
+          :src="provenention.photo || noPhoto"
+          alt=""
+        />
 
-          <div :class="$style.title">{{ provenention.name }}</div>
-          <div :class="$style.text">{{ provenention.description }}</div>
-        </div>
-        <div :class="$style.right">
+        <div :class="$style.text">{{ provenention.description }}</div>
+        <Card4
+          v-for="card in cards"
+          @click="openPage(card.id)"
+          :key="card.id"
+          :card="card"
+          :class="$style.card"
+        />
+        <!-- </div> -->
+        <!-- <div :class="$style.right">
           <Card4
             v-for="card in cards"
             @click="openPage(card.id)"
@@ -27,7 +33,7 @@
             :card="card"
             :class="$style.card"
           />
-        </div>
+        </div> -->
         <slot></slot>
       </div>
     </div>
@@ -57,9 +63,15 @@ const openPage = (id) => {
   appStore.setIsProvModalOpen({
     value: false,
   });
+  const value2 = 0;
+  appStore.setBookPosition({
+    value2,
+  });
+  const value1 = "";
+  appStore.setActiveCriteria({
+    value1,
+  });
 };
-
-
 
 const cards = ref([]);
 
@@ -142,53 +154,35 @@ onMounted(async () => {
     .body {
       background: $dark-green;
       min-height: 41.4rem;
+      max-height: 41.4rem;
+
       border-radius: 0.75rem;
-      display: flex;
 
-      .left {
-        @include shadow-left;
-        max-height: 41.4rem;
-        max-width: 31rem;
-        width: 100%;
-        position: sticky;
-        overflow: hidden;
-        top: 0px;
-        overflow-y: scroll;
-        padding: 1.5rem;
-        text-align: center;
-        .photo {
-          max-width: 100%;
-          margin-bottom: 1rem;
-          align-items: center;
-          align-content: center;
-          align-items: center;
-          align-self: center;
-          border-radius: 0.25rem;
-        }
-        .title {
-          @include LargTextBold;
-          margin-bottom: 1rem;
-          text-align: justify;
-        }
-        .text {
-          @include LargText;
-          text-align: justify;
-        }
+      padding: 1.5rem;
+      text-align: center;
+      overflow: hidden;
+      overflow-y: scroll;
+      .photo {
+        min-width: 100%;
+        max-height: 20rem;
+        object-fit: contain;
+        margin-bottom: 1rem;
+        align-items: center;
+        align-content: center;
+        align-items: center;
+        align-self: center;
+        border-radius: 0.25rem;
       }
-      .right {
-        // @include shadow-right;
+      .title {
+        @include LargTextBold;
+        margin-bottom: 1rem;
+        text-align: justify;
+      }
+      .text {
+        @include LargText;
+        text-align: justify;
 
-        max-width: 100%;
-        max-height: 41.4rem;
-        // overflow: hidden;
-
-        overflow-y: scroll;
-
-        .card {
-          margin-bottom: 1.5rem;
-
-          // padding: 0 2.5rem;
-        }
+        margin-bottom: 2rem;
       }
     }
   }

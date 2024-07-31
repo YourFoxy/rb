@@ -6,6 +6,7 @@ export const useAppStore = defineStore("appStore", {
       windowWidth: 0,
       isModalOpen: false,
       activeSection: 0,
+      bookPosition: 0,
       formData: null,
       formDataSeries: null,
       formDataProv: null,
@@ -15,12 +16,19 @@ export const useAppStore = defineStore("appStore", {
       isSeriesModalOpen: false,
       isProvModalOpen: false,
       isImageModalOpen: false,
+      activeCriteria: "",
       search: "",
       image: "",
     };
   },
   getters: {},
   actions: {
+    setActiveCriteria({ value }) {
+      this.activeCriteria = value;
+    },
+    setBookPosition({ value }) {
+      this.bookPosition = value;
+    },
     setImage({ value, img, data }) {
       this.image = img;
       this.isImageModalOpen = value;

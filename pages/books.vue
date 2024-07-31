@@ -2,7 +2,7 @@
   <div :class="$style.container">
     <div :class="$style.left">
       <FilterСriteria
-        @click="resetCriteria()"
+        @click="setCriteria('')"
         :criteria="resetCriteriaTitle"
         :isSelected="activeCriteria === ''"
       />
@@ -109,6 +109,7 @@ const setChosen = (book) => {
       value: true,
     });
   }
+  savePosition();
 };
 
 const title = ref("");
@@ -116,6 +117,10 @@ const title = ref("");
 const setCriteria = (id) => {
   resetSearch();
   activeCriteria.value = id;
+  const value = activeCriteria.value;
+  appStore.setActiveCriteria({
+    value,
+  });
 };
 
 const setSeriesModal = (value) => {
@@ -132,9 +137,9 @@ const resetSearch = () => {
   });
 };
 
-const resetCriteria = () => {
-  activeCriteria.value = "";
-};
+// const resetCriteria = () => {
+//   activeCriteria.value = "";
+// };
 
 const filteredCriterias = computed(() => {
   criterias.value = criterias.value.sort((a, b) => {
@@ -266,13 +271,35 @@ const setSeries = async () => {
   }
 };
 
+const position = ref(0);
+
+const savePosition = () => {
+  const value = position.value;
+
+  appStore.setBookPosition({
+    value,
+  });
+};
+
 onMounted(async () => {
   //получение книг с сервера
   await setBooks();
   await setCriterias();
 
+  setCriteria(appStore.activeCriteria);
+
+  window.scrollTo({
+    top: Math.abs(appStore.bookPosition),
+    behavior: "auto",
+  });
+
+  console.log(appStore.activeCriteria);
+
   window.addEventListener("scroll", function (e) {
     const markingCards = e.srcElement.getElementsByClassName("markingCard");
+    const header = e.srcElement.getElementsByClassName("header");
+    position.value = header[0].getBoundingClientRect().top;
+    // console.log(header[0].getBoundingClientRect().top);
     for (let i = 0; i < markingCards.length; i++) {
       if (markingCards[i].getBoundingClientRect().top > 0) {
         activeCharacter.value = markingCards[i].id;

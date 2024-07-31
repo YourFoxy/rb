@@ -78,14 +78,14 @@
         </div>
       </div>
 
-      <div :class="$style.subtitle">Фондодержатели:</div>
+      <div :class="$style.subtitle">Фондодержатель:</div>
       <div :class="$style.biblioCards">
         <LibCard
           :class="$style.card"
           v-for="i in book.libraries"
           :key="i.id"
           :librarie="i"
-          @click="router.push({ path: 'libraries', query: { id: i.id } })"
+          @click="openBook(i.id)"
         />
       </div>
       <div :class="$style.subtitle" v-if="showProvenentions()">
@@ -130,6 +130,17 @@ const back = () => {
   router.go(-1);
 };
 
+const openBook = (id) => {
+  router.push({ path: "libraries", query: { id: id } });
+  const value2 = 0;
+  appStore.setBookPosition({
+    value2,
+  });
+  const value1 = "";
+  appStore.setActiveCriteria({
+    value1,
+  });
+};
 const getTom = (tom) => {
   return tom.match(regex)?.[0].replace("Т.", "Том ") ?? "Том";
 };
@@ -154,8 +165,7 @@ const chosenLibrarie = ref(null);
 const setProvModal = (value, prov) => {
   if (value) {
     chosenLibrarie.value = prov;
-  }
-  else {
+  } else {
     chosenLibrarie.value = null;
   }
   appStore.setIsProvModalOpen({
